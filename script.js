@@ -19,6 +19,11 @@ function addRide(ride) {
   return ride;
 }
 
+// ===== DATA ATUAL =====
+function getToday() {
+  return new Date().toISOString().split('T')[0];
+}
+
 // ===== FUNÇÕES: EDITAR E EXCLUIR =====
 function deleteRide(id) {
   if (!confirm('Tem certeza que deseja excluir esta viagem?')) return;
@@ -37,11 +42,11 @@ function editRide(id) {
   
   document.getElementById('editId').value = ride.id;
   document.getElementById('editData').value = ride.date;
-  document.getElementById('editKmRodados').value = ride.kmRodados;
-  document.getElementById('editValorBruto').value = ride.valorBruto;
-  document.getElementById('editPrecoCombustivel').value = ride.precoCombustivel;
-  document.getElementById('editKmPorLitro').value = ride.kmPorLitro;
-  document.getElementById('editAluguelDiario').value = ride.aluguelDiario || 0;
+  document.getElementById('editKmRodados').value = ride.kmRodados.toFixed(2);
+  document.getElementById('editValorBruto').value = ride.valorBruto.toFixed(2);
+  document.getElementById('editPrecoCombustivel').value = ride.precoCombustivel.toFixed(2);
+  document.getElementById('editKmPorLitro').value = ride.kmPorLitro.toFixed(1);
+  document.getElementById('editAluguelDiario').value = ride.aluguelDiario.toFixed(2);
   
   document.getElementById('editModal').style.display = 'flex';
 }
@@ -74,7 +79,7 @@ function closeEditModal() {
   document.getElementById('editModal').style.display = 'none';
 }
 
-// ===== CÁLCULO POR VIAGEM (SÓ COMBUSTÍVEL) =====
+// ===== CÁLCULO POR VIAGEM =====
 function calculateRideProfit(ride) {
   const { kmRodados, valorBruto, precoCombustivel, kmPorLitro } = ride;
   
@@ -89,77 +94,76 @@ function calculateRideProfit(ride) {
   };
 }
 
-// ===== DASHBOARD =====
+// ===== DASHBOARD COM SELETOR DE DATA =====
+let selectedDate = getToday();
+
 function updateDashboard() {
   const rides = getRides();
+  const today = getToday();
   
-  if (rides.length === 0) {
+  // Atualizar display da data
+  document.getElementById('displayDate').textContent = formatDate(selectedDate);
+  
+  // Filtrar corridas pela data selecionada
+  const dayRides = rides.filter(r => r.date === selectedDate);
+  
+  if (dayRides.length === 0) {
     document.getElementById('lucroLiquido').textContent = 'R$ 0,00';
     document.getElementById('ganhoPorKm').textContent = 'R$ 0,00';
     document.getElementById('totalCorridas').textContent = '0';
     document.getElementById('margemMedia').textContent = '0.0%';
     document.getElementById('emptyState').style.display = 'block';
     document.getElementById('recentRides').style.display = 'none';
+    
+    // Verificar se é o dia atual
+    if (selectedDate === today) {
+      document.getElementById('emptyState').innerHTML = 
+        '<p>Nenhuma corrida registrada hoje.</p>' +
+        '<p>Vá para Nova Corrida para começar.</p>';
+    } else {
+      document.getElementById('emptyState').innerHTML = 
+        '<p>Nenhuma corrida registrada neste dia.</p>' +
+        '<p>Selecione outra data.</p>';
+    }
     return;
   }
   
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('recentRides').style.display = 'block';
   
-  // Agrupar por dia
-  const ridesByDay = {};
-  rides.forEach(function(ride) {
-    if (!ridesByDay[ride.date]) {
-      ridesByDay[ride.date] = [];
-    }
-    ridesByDay[ride.date].push(ride);
-  });
-  
-  let totalLucroLiquido = 0;
-  let totalKm = 0;
-  let totalBruto = 0;
+  let somaLucroViagens = 0;
+  let somaBruto = 0;
+  let somaKm = 0;
   let totalMargem = 0;
-  let totalViagens = rides.length;
   
-  Object.keys(ridesByDay).forEach(function(date) {
-    const dayRides = ridesByDay[date];
-    let somaLucroViagens = 0;
-    let somaBruto = 0;
-    let somaKm = 0;
-    
-    dayRides.forEach(function(ride) {
-      const result = calculateRideProfit(ride);
-      somaLucroViagens += result.lucroViagem;
-      somaBruto += ride.valorBruto;
-      somaKm += ride.kmRodados;
-      totalMargem += result.margem;
-    });
-    
-    const aluguelDiario = dayRides[0].aluguelDiario || 0;
-    const lucroDia = somaLucroViagens - aluguelDiario;
-    totalLucroLiquido += lucroDia;
-    totalKm += somaKm;
-    totalBruto += somaBruto;
+  dayRides.forEach(function(ride) {
+    const result = calculateRideProfit(ride);
+    somaLucroViagens += result.lucroViagem;
+    somaBruto += ride.valorBruto;
+    somaKm += ride.kmRodados;
+    totalMargem += result.margem;
   });
   
-  const mediaMargem = totalViagens > 0 ? totalMargem / totalViagens : 0;
-  const ganhoPorKm = totalKm > 0 ? totalBruto / totalKm : 0;
+  const aluguelDiario = dayRides[0].aluguelDiario || 0;
+  const lucroDia = somaLucroViagens - aluguelDiario;
+  const mediaMargem = dayRides.length > 0 ? totalMargem / dayRides.length : 0;
+  const ganhoPorKm = somaKm > 0 ? somaBruto / somaKm : 0;
   
-  document.getElementById('lucroLiquido').textContent = 'R$ ' + totalLucroLiquido.toFixed(2);
+  document.getElementById('lucroLiquido').textContent = 'R$ ' + lucroDia.toFixed(2);
   document.getElementById('ganhoPorKm').textContent = 'R$ ' + ganhoPorKm.toFixed(2);
-  document.getElementById('totalCorridas').textContent = totalViagens;
+  document.getElementById('totalCorridas').textContent = dayRides.length;
   document.getElementById('margemMedia').textContent = mediaMargem.toFixed(1) + '%';
   
-  // Últimas 5 corridas
+  // Listar corridas do dia
   const list = document.getElementById('ridesList');
   list.innerHTML = '';
-  rides.slice(0, 5).forEach(function(ride) {
+  dayRides.forEach(function(ride) {
     const result = calculateRideProfit(ride);
     const div = document.createElement('div');
     div.className = 'ride-item';
     div.innerHTML =
       '<div class="ride-info">' +
-        '<span class="ride-km">' + ride.kmRodados + ' km</span>' +
+        '<span class="ride-km">' + ride.kmRodados.toFixed(2) + ' km</span>' +
         '<span style="font-size:12px;color:#999;">' + ride.date + '</span>' +
       '</div>' +
       '<div class="ride-value">R$ ' + ride.valorBruto.toFixed(2) + '</div>' +
@@ -170,36 +174,62 @@ function updateDashboard() {
   });
 }
 
-// ===== HISTÓRICO =====
+function changeDate(delta) {
+  const date = new Date(selectedDate + 'T00:00:00');
+  date.setDate(date.getDate() + delta);
+  selectedDate = date.toISOString().split('T')[0];
+  updateDashboard();
+}
+
+function goToToday() {
+  selectedDate = getToday();
+  updateDashboard();
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr + 'T00:00:00');
+  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+  const dayName = weekdays[date.getDay()];
+  const parts = dateStr.split('-');
+  return dayName + ', ' + parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
+// ===== HISTÓRICO COM NAVEGAÇÃO POR DIA =====
+let historicoSelectedDate = getToday();
+
 function updateHistorico() {
   const rides = getRides();
   const container = document.getElementById('historicoList');
   const summary = document.getElementById('daySummary');
+  const today = getToday();
+  
+  // Atualizar display da data no histórico
+  document.getElementById('historicoDate').textContent = formatDate(historicoSelectedDate);
+  
+  // Filtrar corridas pela data selecionada
+  const dayRides = rides.filter(r => r.date === historicoSelectedDate);
   
   if (!container) return;
   
-  if (rides.length === 0) {
-    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">Nenhuma corrida registrada.</p>';
-    if (summary) summary.style.display = 'none';
+  if (dayRides.length === 0) {
+    container.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">Nenhuma corrida registrada neste dia.</p>';
+    if (summary) {
+      summary.style.display = 'block';
+      summary.querySelector('.day-date').textContent = formatDate(historicoSelectedDate);
+      summary.querySelector('.day-rides').textContent = '0 corrida';
+      const profitEl = summary.querySelector('.day-profit');
+      profitEl.textContent = 'Lucro do dia R$ 0,00';
+      profitEl.className = 'day-profit';
+    }
     return;
   }
   
   if (summary) summary.style.display = 'block';
   
-  // Agrupar por dia
-  const days = {};
-  rides.forEach(function(ride) {
-    if (!days[ride.date]) days[ride.date] = [];
-    days[ride.date].push(ride);
-  });
-  
-  // Dia mais recente
-  const today = Object.keys(days)[0];
-  const todayRides = days[today] || [];
   let somaViagens = 0;
   let aluguelDia = 0;
   
-  todayRides.forEach(function(ride) {
+  dayRides.forEach(function(ride) {
     const result = calculateRideProfit(ride);
     somaViagens += result.lucroViagem;
     aluguelDia = ride.aluguelDiario || 0;
@@ -208,27 +238,22 @@ function updateHistorico() {
   const lucroDia = somaViagens - aluguelDia;
   
   if (summary) {
-    const dateObj = new Date(today + 'T00:00:00');
-    const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
-    const dayName = weekdays[dateObj.getDay()];
-    const formattedDate = dayName + ', ' + today.split('-').reverse().join('/');
-    
-    summary.querySelector('.day-date').textContent = formattedDate;
-    summary.querySelector('.day-rides').textContent = todayRides.length + ' corrida' + (todayRides.length > 1 ? 's' : '');
+    summary.querySelector('.day-date').textContent = formatDate(historicoSelectedDate);
+    summary.querySelector('.day-rides').textContent = dayRides.length + ' corrida' + (dayRides.length > 1 ? 's' : '');
     const profitEl = summary.querySelector('.day-profit');
     profitEl.textContent = 'Lucro do dia R$ ' + lucroDia.toFixed(2);
     profitEl.className = 'day-profit ' + (lucroDia >= 0 ? 'positive' : 'negative');
   }
   
-  // Listar todas as viagens
+  // Listar todas as viagens do dia
   container.innerHTML = '';
-  rides.forEach(function(ride) {
+  dayRides.forEach(function(ride) {
     const result = calculateRideProfit(ride);
     const div = document.createElement('div');
     div.className = 'ride-item';
     div.innerHTML =
       '<div style="flex:1;">' +
-        '<div class="ride-km">' + ride.kmRodados + ' km</div>' +
+        '<div class="ride-km">' + ride.kmRodados.toFixed(2) + ' km</div>' +
         '<div style="font-size:12px;color:#999;">' + ride.date + '</div>' +
       '</div>' +
       '<div style="text-align:right; margin-right:10px;">' +
@@ -245,10 +270,40 @@ function updateHistorico() {
   });
 }
 
+function changeHistoricoDate(delta) {
+  const date = new Date(historicoSelectedDate + 'T00:00:00');
+  date.setDate(date.getDate() + delta);
+  historicoSelectedDate = date.toISOString().split('T')[0];
+  updateHistorico();
+}
+
+function goToHistoricoToday() {
+  historicoSelectedDate = getToday();
+  updateHistorico();
+}
+
+// ===== VERIFICAR MUDANÇA DE DIA =====
+let currentDay = getToday();
+
+function checkDayChange() {
+  const today = getToday();
+  if (today !== currentDay) {
+    currentDay = today;
+    // Atualizar datas selecionadas para o dia atual
+    selectedDate = today;
+    historicoSelectedDate = today;
+    updateDashboard();
+    updateHistorico();
+  }
+}
+
 // ===== NOVA CORRIDA =====
 function setupNewRideForm() {
   const form = document.getElementById('rideForm');
   if (!form) return;
+  
+  // Setar data atual
+  document.getElementById('data').value = getToday();
   
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -270,6 +325,7 @@ function setupNewRideForm() {
     addRide(ride);
     alert('Corrida salva com sucesso!');
     form.reset();
+    document.getElementById('data').value = getToday();
     updateDashboard();
   });
 }
@@ -290,6 +346,9 @@ function updateClock() {
 document.addEventListener('DOMContentLoaded', function() {
   updateClock();
   setInterval(updateClock, 30000);
+  
+  // Verificar mudança de dia a cada 60 segundos
+  setInterval(checkDayChange, 60000);
   
   const path = window.location.pathname;
   
