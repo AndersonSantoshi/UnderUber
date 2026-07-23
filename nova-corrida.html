@@ -20,47 +20,49 @@
       </div>
     </header>
 
-    <form id="rideForm" class="form-container">
-      <div class="form-group">
-        <label>Data</label>
-        <input type="date" id="data">
-      </div>
-
-      <div class="form-group">
-        <label>KMs Rodados na Viagem</label>
-        <input type="text" id="kmRodados" placeholder="Ex: 85,00" inputmode="decimal">
-      </div>
-
-      <div class="form-group">
-        <label>Valor Bruto da Viagem (R$)</label>
-        <input type="text" id="valorBruto" placeholder="Ex: 185,53" inputmode="decimal">
-      </div>
-
-      <h3 class="section-title">Parâmetros de Custo</h3>
-
-      <div class="form-group">
-        <label>Preço Combustível (R$)</label>
-        <div class="input-with-label">
-          <input type="text" id="precoCombustivel" placeholder="Ex: 3,69" inputmode="decimal">
-          <span class="input-suffix">Por litro</span>
+    <div class="main-content">
+      <form id="rideForm" class="form-container">
+        <div class="form-group">
+          <label>Data</label>
+          <input type="date" id="data">
         </div>
-      </div>
 
-      <div class="form-group">
-        <label>KM por Litro</label>
-        <input type="text" id="kmPorLitro" placeholder="Ex: 7,4" inputmode="decimal">
-      </div>
+        <div class="form-group">
+          <label>KMs Rodados na Viagem</label>
+          <input type="text" id="kmRodados" placeholder="Ex: 85,00" inputmode="decimal">
+        </div>
 
-      <div class="form-group">
-        <label>Custo de Locação do Veículo (R$)</label>
-        <input type="text" id="aluguelDiario" placeholder="Ex: 114,29" inputmode="decimal">
-      </div>
+        <div class="form-group">
+          <label>Valor Bruto da Viagem (R$)</label>
+          <input type="text" id="valorBruto" placeholder="Ex: 185,53" inputmode="decimal">
+        </div>
 
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary">Salvar Corrida</button>
-        <button type="reset" class="btn btn-secondary">Cancelar</button>
-      </div>
-    </form>
+        <h3 class="section-title">Parâmetros de Custo</h3>
+
+        <div class="form-group">
+          <label>Preço Combustível (R$)</label>
+          <div class="input-with-label">
+            <input type="text" id="precoCombustivel" placeholder="Ex: 3,69" inputmode="decimal">
+            <span class="input-suffix">Por litro</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>KM por Litro</label>
+          <input type="text" id="kmPorLitro" placeholder="Ex: 7,4" inputmode="decimal">
+        </div>
+
+        <div class="form-group">
+          <label>Custo de Locação do Veículo (R$)</label>
+          <input type="text" id="aluguelDiario" placeholder="Ex: 114,29" inputmode="decimal">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Salvar Corrida</button>
+          <button type="reset" class="btn btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
 
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item">
