@@ -17,9 +17,17 @@
       </div>
     </header>
 
+    <!-- SELETOR DE DATA DO HISTÓRICO -->
+    <div class="date-selector">
+      <button onclick="changeHistoricoDate(-1)" class="date-btn">◀</button>
+      <span id="historicoDate" class="date-display">Hoje</span>
+      <button onclick="changeHistoricoDate(1)" class="date-btn">▶</button>
+      <button onclick="goToHistoricoToday()" class="date-today">Hoje</button>
+    </div>
+
     <div id="historicoContent">
       <div class="day-summary" id="daySummary">
-        <div class="day-date">Qua, 22/07/2026</div>
+        <div class="day-date">Hoje</div>
         <div class="day-rides">0 corrida</div>
         <div class="day-profit" id="dayProfit">Lucro do dia R$ 0,00</div>
       </div>
@@ -61,7 +69,7 @@
 
         <div class="form-group">
           <label>KM Rodados</label>
-          <input type="number" id="editKmRodados" step="0.1" required>
+          <input type="number" id="editKmRodados" step="0.01" required>
         </div>
 
         <div class="form-group">
