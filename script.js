@@ -313,13 +313,6 @@ function setupNewRideForm() {
   });
 }
 
-// ===== FUNÇÕES DE EXPORT =====
-
-function formatDate(dateStr) {
-  const parts = dateStr.split('-');
-  return parts[2] + '/' + parts[1] + '/' + parts[0];
-}
-
 // ===== GERAR PDF =====
 function generatePDF() {
   const rides = getRides();
@@ -328,6 +321,14 @@ function generatePDF() {
     return;
   }
   
+  // Mostrar loading
+  const btn = document.querySelector('.btn-pdf');
+  if (btn) {
+    btn.textContent = '⏳ Gerando...';
+    btn.disabled = true;
+  }
+  
+  // Calcular totais
   let totalBruto = 0;
   let totalLucro = 0;
   let totalKm = 0;
@@ -341,10 +342,11 @@ function generatePDF() {
     totalCombustivel += result.custoCombustivel;
   });
   
+  // Construir HTML do PDF
   let html = '<html><head><meta charset="UTF-8">';
   html += '<style>';
-  html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; background: #f5f5f5; }';
-  html += '.container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }';
+  html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; background: white; }';
+  html += '.container { max-width: 800px; margin: 0 auto; }';
   html += 'h1 { color: #1a1a2e; text-align: center; font-size: 24px; margin-bottom: 5px; }';
   html += '.subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 30px; }';
   html += '.header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e94560; padding-bottom: 15px; }';
@@ -361,10 +363,7 @@ function generatePDF() {
   html += '.footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }';
   html += '.positive { color: #2ecc71; }';
   html += '.negative { color: #e74c3c; }';
-  html += '.btn-voltar { display: block; width: 100%; padding: 14px; background: #e94560; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; text-align: center; text-decoration: none; }';
-  html += '.btn-voltar:hover { background: #c23152; }';
-  html += '.no-print { display: block; }';
-  html += '@media print { .no-print { display: none !important; } .container { box-shadow: none !important; } }';
+  html += '@media print { body { padding: 20px; } }';
   html += '</style></head><body>';
   
   html += '<div class="container">';
@@ -412,72 +411,36 @@ function generatePDF() {
   html += 'Dados salvos em ' + new Date().toLocaleString('pt-BR');
   html += '</div>';
   
-  // BOTÃO VOLTAR (só aparece na tela, não no PDF)
-  html += '<button onclick="window.close()" class="btn-voltar no-print">🔙 Voltar para o Dashboard</button>';
-  
   html += '</div>';
   html += '</body></html>';
   
-  // Abrir em nova janela com botão voltar
+  // ===== USAR A API DE IMPRESSÃO DO NAVEGADOR =====
+  // Isso vai abrir a opção "Salvar como PDF" e depois você pode compartilhar
+  
   const win = window.open('', '_blank', 'width=900,height=700');
   if (!win) {
     alert('⚠️ Por favor, permita pop-ups para gerar o PDF.');
+    if (btn) {
+      btn.textContent = '📄 Gerar PDF';
+      btn.disabled = false;
+    }
     return;
   }
+  
   win.document.write(html);
   win.document.close();
-}
-
-// ===== COPIAR RELATÓRIO =====
-function copyRidesData() {
-  const rides = getRides();
-  if (rides.length === 0) {
-    alert('📭 Nenhuma corrida registrada!');
-    return;
+  
+  // Restaurar botão
+  if (btn) {
+    btn.textContent = '📄 Gerar PDF';
+    btn.disabled = false;
   }
   
-  let texto = '🚗 UNDERUBER - RELATÓRIO\n';
-  texto += '📅 ' + new Date().toLocaleString('pt-BR') + '\n';
-  texto += '═'.repeat(40) + '\n\n';
-  
-  rides.forEach(function(ride, index) {
-    const result = calculateRideProfit(ride);
-    texto += '📍 Corrida #' + (index + 1) + '\n';
-    texto += '📆 Data: ' + formatDate(ride.date) + '\n';
-    texto += '📏 KM: ' + ride.kmRodados.toFixed(2) + '\n';
-    texto += '💰 Valor Bruto: R$ ' + ride.valorBruto.toFixed(2) + '\n';
-    texto += '⛽ Combustível: R$ ' + result.custoCombustivel.toFixed(2) + '\n';
-    texto += '💵 Lucro: R$ ' + result.lucroViagem.toFixed(2) + '\n';
-    texto += '─'.repeat(30) + '\n';
-  });
-  
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(texto).then(function() {
-      alert('✅ Dados copiados! Cole onde quiser.');
-    }).catch(function() {
-      fallbackCopy(texto);
-    });
-  } else {
-    fallbackCopy(texto);
-  }
+  // Aguardar carregamento e abrir impressão
+  setTimeout(function() {
+    win.print();
+  }, 800);
 }
-
-function fallbackCopy(text) {
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-    alert('✅ Dados copiados! Cole onde quiser.');
-  } catch (err) {
-    alert('❌ Não foi possível copiar.');
-  }
-  document.body.removeChild(textarea);
-}
-
 // ===== RELÓGIO =====
 function updateClock() {
   const agora = new Date();
