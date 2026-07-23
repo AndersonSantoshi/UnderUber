@@ -8,13 +8,18 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "icon-iphone.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
       "src": "icon-iphone.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-iphone.png",
+      "sizes": "180x180",
       "type": "image/png"
     }
   ]
