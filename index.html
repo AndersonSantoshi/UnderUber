@@ -20,47 +20,49 @@
       </div>
     </header>
 
-    <!-- SELETOR DE DATA -->
-    <div class="date-selector">
-      <button onclick="changeDate(-1)" class="date-btn">◀</button>
-      <span id="displayDate" class="date-display">Hoje</span>
-      <button onclick="changeDate(1)" class="date-btn">▶</button>
-      <button onclick="goToToday()" class="date-today">Hoje</button>
+    <div class="main-content">
+      <!-- SELETOR DE DATA -->
+      <div class="date-selector">
+        <button onclick="changeDate(-1)" class="date-btn">◀</button>
+        <span id="displayDate" class="date-display">Hoje</span>
+        <button onclick="changeDate(1)" class="date-btn">▶</button>
+        <button onclick="goToToday()" class="date-today">Hoje</button>
+      </div>
+
+      <!-- BOTÃO PDF -->
+      <div class="pdf-button-container">
+        <button onclick="generatePDF()" class="btn-pdf">📄 Gerar PDF</button>
+      </div>
+
+      <section class="dashboard-cards">
+        <div class="card">
+          <div class="card-label">Lucro Líquido</div>
+          <div class="card-value" id="lucroLiquido">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Ganho por KM</div>
+          <div class="card-value" id="ganhoPorKm">R$ 0,00</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Total de Corridas</div>
+          <div class="card-value" id="totalCorridas">0</div>
+        </div>
+        <div class="card">
+          <div class="card-label">Margem Média</div>
+          <div class="card-value" id="margemMedia">0,0%</div>
+        </div>
+      </section>
+
+      <div class="empty-state" id="emptyState">
+        <p>Nenhuma corrida registrada ainda.</p>
+        <p>Vá para Nova Corrida para começar.</p>
+      </div>
+
+      <section class="recent-rides" id="recentRides" style="display:none;">
+        <h2>Corridas do Dia</h2>
+        <div id="ridesList"></div>
+      </section>
     </div>
-
-    <!-- BOTÃO PDF -->
-    <div class="pdf-button-container">
-      <button onclick="generatePDF()" class="btn-pdf">📄 Gerar PDF</button>
-    </div>
-
-    <section class="dashboard-cards">
-      <div class="card">
-        <div class="card-label">Lucro Líquido</div>
-        <div class="card-value" id="lucroLiquido">R$ 0,00</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Ganho por KM</div>
-        <div class="card-value" id="ganhoPorKm">R$ 0,00</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Total de Corridas</div>
-        <div class="card-value" id="totalCorridas">0</div>
-      </div>
-      <div class="card">
-        <div class="card-label">Margem Média</div>
-        <div class="card-value" id="margemMedia">0,0%</div>
-      </div>
-    </section>
-
-    <div class="empty-state" id="emptyState">
-      <p>Nenhuma corrida registrada ainda.</p>
-      <p>Vá para Nova Corrida para começar.</p>
-    </div>
-
-    <section class="recent-rides" id="recentRides" style="display:none;">
-      <h2>Corridas do Dia</h2>
-      <div id="ridesList"></div>
-    </section>
 
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item active">
