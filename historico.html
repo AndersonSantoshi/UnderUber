@@ -4,14 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UnderUber - Histórico</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="UnderUber">
 </head>
 <body>
   <div class="app-container">
     <header class="header">
       <div class="header-time" id="horaAtual">22:28</div>
       <div class="header-brand">
-        <span class="brand-icon">🚗</span>
+        <!-- LOGO -->
+        <svg class="brand-icon" width="36" height="36" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="256" cy="256" r="256" fill="url(#gradLogo)"/>
+          <path d="M256 80C256 80 160 160 160 256C160 352 256 432 256 432C256 432 352 352 352 256C352 160 256 80 256 80Z" fill="#0A0A0A" opacity="0.9"/>
+          <path d="M256 120C256 120 200 180 200 256C200 332 256 392 256 392C256 392 312 332 312 256C312 180 256 120 256 120Z" fill="#FFD700"/>
+          <circle cx="256" cy="256" r="40" fill="#0A0A0A"/>
+          <circle cx="256" cy="256" r="20" fill="#FFD700"/>
+          <rect x="236" y="140" width="40" height="16" rx="8" fill="#FFD700" transform="rotate(45 256 148)"/>
+          <rect x="236" y="356" width="40" height="16" rx="8" fill="#FFD700" transform="rotate(45 256 364)"/>
+          <rect x="140" y="236" width="16" height="40" rx="8" fill="#FFD700" transform="rotate(45 148 256)"/>
+          <rect x="356" y="236" width="16" height="40" rx="8" fill="#FFD700" transform="rotate(45 364 256)"/>
+          <defs>
+            <linearGradient id="gradLogo" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFD700"/>
+              <stop offset="100%" stop-color="#FFA500"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <h1 class="header-title">UnderUber</h1>
         <span class="header-subtitle">Histórico</span>
       </div>
