@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UnderUber - Histórico</title>
+  <title>UnderUber - Nova Corrida</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,95 +14,68 @@
   <div class="app-container">
     <header class="header">
       <div class="header-brand">
-        <span class="header-subtitle">Histórico</span>
+        <span class="header-subtitle">Nova Corrida</span>
         <img src="icon-512.png" alt="UnderUber" class="brand-icon-img">
         <div class="header-time" id="horaAtual">22:28</div>
       </div>
     </header>
 
-    <!-- SELETOR DE DATA DO HISTÓRICO -->
-    <div class="date-selector">
-      <button onclick="changeHistoricoDate(-1)" class="date-btn">◀</button>
-      <span id="historicoDate" class="date-display">Hoje</span>
-      <button onclick="changeHistoricoDate(1)" class="date-btn">▶</button>
-      <button onclick="goToHistoricoToday()" class="date-today">Hoje</button>
-    </div>
-
-    <div id="historicoContent">
-      <div class="day-summary" id="daySummary">
-        <div class="day-date">Hoje</div>
-        <div class="day-rides">0 corrida</div>
-        <div class="day-profit" id="dayProfit">Lucro do dia R$ 0,00</div>
+    <form id="rideForm" class="form-container">
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" id="data">
       </div>
 
-      <div id="historicoList" class="historico-list"></div>
-    </div>
+      <div class="form-group">
+        <label>KMs Rodados na Viagem</label>
+        <input type="text" id="kmRodados" placeholder="Ex: 85,00" inputmode="decimal">
+      </div>
+
+      <div class="form-group">
+        <label>Valor Bruto da Viagem (R$)</label>
+        <input type="text" id="valorBruto" placeholder="Ex: 185,53" inputmode="decimal">
+      </div>
+
+      <h3 class="section-title">Parâmetros de Custo</h3>
+
+      <div class="form-group">
+        <label>Preço Combustível (R$)</label>
+        <div class="input-with-label">
+          <input type="text" id="precoCombustivel" placeholder="Ex: 3,69" inputmode="decimal">
+          <span class="input-suffix">Por litro</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>KM por Litro</label>
+        <input type="text" id="kmPorLitro" placeholder="Ex: 7,4" inputmode="decimal">
+      </div>
+
+      <div class="form-group">
+        <label>Custo de Locação do Veículo (R$)</label>
+        <input type="text" id="aluguelDiario" placeholder="Ex: 114,29" inputmode="decimal">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Salvar Corrida</button>
+        <button type="reset" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
 
     <nav class="bottom-nav">
       <a href="index.html" class="nav-item">
         <span>📊</span>
         <span>Dashboard</span>
       </a>
-      <a href="nova-corrida.html" class="nav-item">
+      <a href="nova-corrida.html" class="nav-item active">
         <span>➕</span>
         <span>Nova Corrida</span>
       </a>
-      <a href="historico.html" class="nav-item active">
+      <a href="historico.html" class="nav-item">
         <span>📋</span>
         <span>Histórico</span>
       </a>
     </nav>
-  </div>
-
-  <!-- MODAL DE EDIÇÃO -->
-  <div id="editModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>✏️ Editar Viagem</h2>
-        <button onclick="closeEditModal()" class="modal-close">✕</button>
-      </div>
-      
-      <form id="editForm">
-        <input type="hidden" id="editId">
-        
-        <div class="form-group">
-          <label>Data</label>
-          <input type="date" id="editData">
-        </div>
-
-        <div class="form-group">
-          <label>KMs Rodados na Viagem</label>
-          <input type="text" id="editKmRodados" inputmode="decimal">
-        </div>
-
-        <div class="form-group">
-          <label>Valor Bruto da Viagem (R$)</label>
-          <input type="text" id="editValorBruto" inputmode="decimal">
-        </div>
-
-        <h3 class="section-title">Parâmetros de Custo</h3>
-
-        <div class="form-group">
-          <label>Preço Combustível (R$)</label>
-          <input type="text" id="editPrecoCombustivel" inputmode="decimal">
-        </div>
-
-        <div class="form-group">
-          <label>KM por Litro</label>
-          <input type="text" id="editKmPorLitro" inputmode="decimal">
-        </div>
-
-        <div class="form-group">
-          <label>Custo de Locação do Veículo (R$)</label>
-          <input type="text" id="editAluguelDiario" inputmode="decimal">
-        </div>
-
-        <div class="form-actions">
-          <button type="button" onclick="saveEditRide()" class="btn btn-primary">Salvar Alterações</button>
-          <button type="button" onclick="closeEditModal()" class="btn btn-secondary">Cancelar</button>
-        </div>
-      </form>
-    </div>
   </div>
 
   <script src="script.js"></script>
