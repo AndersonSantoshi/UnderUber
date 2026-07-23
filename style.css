@@ -20,7 +20,6 @@ body {
   position: relative;
 }
 
-/* ===== HEADER ===== */
 .header {
   background: #0A0A0A;
   padding: 0;
@@ -67,7 +66,6 @@ body {
   opacity: 0.6;
 }
 
-/* ===== CONTEÚDO PRINCIPAL ===== */
 .main-content {
   position: relative;
   z-index: 1;
@@ -76,7 +74,6 @@ body {
   padding-bottom: 20px;
 }
 
-/* ===== SELETOR DE DATA ===== */
 .date-selector {
   display: flex;
   align-items: center;
@@ -129,7 +126,6 @@ body {
   transform: scale(1.05);
 }
 
-/* ===== BOTÃO PDF ===== */
 .pdf-button-container {
   padding: 0 16px;
   margin: 12px 0;
@@ -163,7 +159,6 @@ body {
   transform: translateY(0);
 }
 
-/* ===== CARDS ===== */
 .dashboard-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -201,7 +196,6 @@ body {
   color: #FF8C00;
 }
 
-/* ===== EMPTY STATE ===== */
 .empty-state {
   text-align: center;
   padding: 50px 20px;
@@ -218,7 +212,6 @@ body {
   color: #888;
 }
 
-/* ===== RECENT RIDES ===== */
 .recent-rides {
   padding: 0 20px 20px;
 }
@@ -231,7 +224,46 @@ body {
   letter-spacing: 1px;
 }
 
-/* ===== FORMULÁRIO ===== */
+#ridesList .ride-item {
+  background: #1A1A1A;
+  padding: 14px 16px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  border: 1px solid #2A2A2A;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#ridesList .ride-item:hover {
+  border-color: #FF8C00;
+}
+
+.ride-km {
+  font-weight: 600;
+  font-size: 16px;
+  color: #FFFFFF;
+}
+
+.ride-value {
+  font-weight: 600;
+  color: #FF8C00;
+  font-size: 15px;
+}
+
+.ride-profit {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ride-profit.negative {
+  color: #FF4444;
+}
+
+.ride-profit.positive {
+  color: #4CAF50;
+}
+
 .form-container {
   padding: 20px 24px;
   background: #1A1A1A;
@@ -307,7 +339,6 @@ input::placeholder {
   color: #FF8C00;
 }
 
-/* ===== BOTÕES ===== */
 .form-actions {
   display: flex;
   gap: 12px;
@@ -346,7 +377,6 @@ input::placeholder {
   background: #3A3A3A;
 }
 
-/* ===== NAVEGAÇÃO INFERIOR ===== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -396,7 +426,6 @@ input::placeholder {
   border-radius: 0 0 4px 4px;
 }
 
-/* ===== HISTÓRICO ===== */
 .historico-list {
   padding: 0 16px 20px;
 }
@@ -441,7 +470,6 @@ input::placeholder {
   color: #4CAF50;
 }
 
-/* ===== RESUMO DO DIA ===== */
 .day-summary {
   background: #1A1A1A;
   margin: 16px 16px 20px;
@@ -476,7 +504,6 @@ input::placeholder {
   color: #4CAF50;
 }
 
-/* ===== BOTÕES EDITAR/EXCLUIR ===== */
 .btn-edit, .btn-delete {
   border: none;
   background: none;
@@ -497,7 +524,6 @@ input::placeholder {
   transform: scale(1.1);
 }
 
-/* ===== MODAL ===== */
 .modal {
   display: none;
   position: fixed;
