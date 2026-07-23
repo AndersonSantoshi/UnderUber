@@ -1,93 +1,17 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>UnderUber - Dashboard</title>
-  
-  <!-- ===== MANIFEST ===== -->
   <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
   
-  <!-- ===== META TAGS PARA IPHONE ===== -->
+  <!-- ÍCONES PARA IPHONE -->
+  <link rel="apple-touch-icon" href="icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icon-iphone.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icon-iphone.png">
+  
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="UnderUber">
-  <link rel="apple-touch-icon" href="icon-512.png">
-  
-  <!-- ===== CSS ===== -->
-  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="app-container">
-    <header class="header">
-      <div class="header-brand">
-        <img src="icon-512.png" alt="UnderUber" class="brand-icon-img">
-        <div class="header-time" id="horaAtual">22:28</div>
-      </div>
-    </header>
-
-    <div class="main-content">
-      <!-- SELETOR DE DATA -->
-      <div class="date-selector">
-        <button onclick="changeDate(-1)" class="date-btn">◀</button>
-        <span id="displayDate" class="date-display">Hoje</span>
-        <button onclick="changeDate(1)" class="date-btn">▶</button>
-        <button onclick="goToToday()" class="date-today">Hoje</button>
-      </div>
-
-      <!-- BOTÃO PDF -->
-      <div class="pdf-button-container">
-        <button onclick="generatePDF()" class="btn-pdf">📄 Gerar PDF</button>
-      </div>
-
-      <section class="dashboard-cards">
-        <div class="card">
-          <div class="card-label">Lucro Líquido</div>
-          <div class="card-value" id="lucroLiquido">R$ 0,00</div>
-        </div>
-        <div class="card">
-          <div class="card-label">Ganho por KM</div>
-          <div class="card-value" id="ganhoPorKm">R$ 0,00</div>
-        </div>
-        <div class="card">
-          <div class="card-label">Total de Corridas</div>
-          <div class="card-value" id="totalCorridas">0</div>
-        </div>
-        <div class="card">
-          <div class="card-label">Margem Média</div>
-          <div class="card-value" id="margemMedia">0,0%</div>
-        </div>
-      </section>
-
-      <div class="empty-state" id="emptyState">
-        <p>Nenhuma corrida registrada ainda.</p>
-        <p>Vá para Nova Corrida para começar.</p>
-      </div>
-
-      <section class="recent-rides" id="recentRides" style="display:none;">
-        <h2>Corridas do Dia</h2>
-        <div id="ridesList"></div>
-      </section>
-    </div>
-
-    <!-- ===== NAVEGAÇÃO INFERIOR ===== -->
-    <nav class="bottom-nav">
-      <a href="index.html" class="nav-item active">
-        <span>📊</span>
-        <span>Dashboard</span>
-      </a>
-      <a href="nova-corrida.html" class="nav-item">
-        <span>➕</span>
-        <span>Nova Corrida</span>
-      </a>
-      <a href="historico.html" class="nav-item">
-        <span>📋</span>
-        <span>Histórico</span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- ===== SCRIPTS ===== -->
-  <script src="script.js"></script>
-</body>
-</html>
