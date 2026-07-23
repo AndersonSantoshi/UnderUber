@@ -94,17 +94,15 @@ function calculateRideProfit(ride) {
   };
 }
 
-// ===== DASHBOARD COM SELETOR DE DATA =====
+// ===== DASHBOARD =====
 let selectedDate = getToday();
 
 function updateDashboard() {
   const rides = getRides();
   const today = getToday();
   
-  // Atualizar display da data
   document.getElementById('displayDate').textContent = formatDate(selectedDate);
   
-  // Filtrar corridas pela data selecionada
   const dayRides = rides.filter(r => r.date === selectedDate);
   
   if (dayRides.length === 0) {
@@ -115,7 +113,6 @@ function updateDashboard() {
     document.getElementById('emptyState').style.display = 'block';
     document.getElementById('recentRides').style.display = 'none';
     
-    // Verificar se é o dia atual
     if (selectedDate === today) {
       document.getElementById('emptyState').innerHTML = 
         '<p>Nenhuma corrida registrada hoje.</p>' +
@@ -154,7 +151,6 @@ function updateDashboard() {
   document.getElementById('totalCorridas').textContent = dayRides.length;
   document.getElementById('margemMedia').textContent = mediaMargem.toFixed(1) + '%';
   
-  // Listar corridas do dia
   const list = document.getElementById('ridesList');
   list.innerHTML = '';
   dayRides.forEach(function(ride) {
@@ -186,15 +182,7 @@ function goToToday() {
   updateDashboard();
 }
 
-function formatDate(dateStr) {
-  const date = new Date(dateStr + 'T00:00:00');
-  const weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
-  const dayName = weekdays[date.getDay()];
-  const parts = dateStr.split('-');
-  return dayName + ', ' + parts[2] + '/' + parts[1] + '/' + parts[0];
-}
-
-// ===== HISTÓRICO COM NAVEGAÇÃO POR DIA =====
+// ===== HISTÓRICO =====
 let historicoSelectedDate = getToday();
 
 function updateHistorico() {
@@ -203,10 +191,8 @@ function updateHistorico() {
   const summary = document.getElementById('daySummary');
   const today = getToday();
   
-  // Atualizar display da data no histórico
   document.getElementById('historicoDate').textContent = formatDate(historicoSelectedDate);
   
-  // Filtrar corridas pela data selecionada
   const dayRides = rides.filter(r => r.date === historicoSelectedDate);
   
   if (!container) return;
@@ -245,7 +231,6 @@ function updateHistorico() {
     profitEl.className = 'day-profit ' + (lucroDia >= 0 ? 'positive' : 'negative');
   }
   
-  // Listar todas as viagens do dia
   container.innerHTML = '';
   dayRides.forEach(function(ride) {
     const result = calculateRideProfit(ride);
@@ -289,7 +274,6 @@ function checkDayChange() {
   const today = getToday();
   if (today !== currentDay) {
     currentDay = today;
-    // Atualizar datas selecionadas para o dia atual
     selectedDate = today;
     historicoSelectedDate = today;
     updateDashboard();
@@ -302,7 +286,6 @@ function setupNewRideForm() {
   const form = document.getElementById('rideForm');
   if (!form) return;
   
-  // Setar data atual
   document.getElementById('data').value = getToday();
   
   form.addEventListener('submit', function(e) {
@@ -330,17 +313,13 @@ function setupNewRideForm() {
   });
 }
 
-// ===== RELÓGIO =====
-function updateClock() {
-  const agora = new Date();
-  const horas = String(agora.getHours()).padStart(2, '0');
-  const minutos = String(agora.getMinutes()).padStart(2, '0');
-  const horaAtual = horas + ':' + minutos;
-  
-  document.querySelectorAll('#horaAtual').forEach(function(el) {
-    el.textContent = horaAtual;
-  });
+// ===== FUNÇÕES DE EXPORT =====
+
+function formatDate(dateStr) {
+  const parts = dateStr.split('-');
+  return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
+
 // ===== GERAR PDF =====
 function generatePDF() {
   const rides = getRides();
@@ -349,7 +328,6 @@ function generatePDF() {
     return;
   }
   
-  // Calcular totais
   let totalBruto = 0;
   let totalLucro = 0;
   let totalKm = 0;
@@ -363,7 +341,6 @@ function generatePDF() {
     totalCombustivel += result.custoCombustivel;
   });
   
-  // Criar HTML para o PDF
   let html = '<html><head><meta charset="UTF-8">';
   html += '<style>';
   html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; }';
@@ -376,7 +353,6 @@ function generatePDF() {
   html += 'th { background: #1a1a2e; color: white; padding: 10px 8px; text-align: left; }';
   html += 'td { padding: 8px; border-bottom: 1px solid #eee; }';
   html += 'tr:nth-child(even) { background: #f9f9f9; }';
-  html += '.total { background: #f0f2f5; font-weight: bold; }';
   html += '.resumo { background: #e8f5e9; padding: 15px 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2ecc71; }';
   html += '.resumo h3 { margin: 0 0 10px 0; color: #1a1a2e; }';
   html += '.resumo p { margin: 5px 0; font-size: 14px; }';
@@ -384,10 +360,8 @@ function generatePDF() {
   html += '.footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }';
   html += '.positive { color: #2ecc71; }';
   html += '.negative { color: #e74c3c; }';
-  html += '.aluguel { color: #e67e22; }';
   html += '</style></head><body>';
   
-  // Cabeçalho
   html += '<div class="header">';
   html += '<div class="icon">🚗</div>';
   html += '<h1>UnderUber</h1>';
@@ -395,7 +369,6 @@ function generatePDF() {
   html += '<small>Gerado em: ' + new Date().toLocaleString('pt-BR') + '</small>';
   html += '</div>';
   
-  // Resumo
   html += '<div class="resumo">';
   html += '<h3>📊 RESUMO DO PERÍODO</h3>';
   html += '<p>📍 Total de Corridas: <span class="value">' + rides.length + '</span></p>';
@@ -405,7 +378,6 @@ function generatePDF() {
   html += '<p>💵 Lucro Total: <span class="value positive">R$ ' + totalLucro.toFixed(2) + '</span></p>';
   html += '</div>';
   
-  // Tabela de corridas
   html += '<h3 style="margin-top:25px;">📋 DETALHES DAS CORRIDAS</h3>';
   html += '<table>';
   html += '<tr><th>#</th><th>Data</th><th>KM</th><th>Valor (R$)</th><th>Combustível (R$)</th><th>Lucro (R$)</th></tr>';
@@ -425,15 +397,13 @@ function generatePDF() {
   
   html += '</table>';
   
-  // Rodapé
   html += '<div class="footer">';
-  html += '🚗 UnderUber - App para motoristas de aplicativo<br>';
+  html += '🚗 UnderUber - App para motoristas<br>';
   html += 'Dados salvos em ' + new Date().toLocaleString('pt-BR');
   html += '</div>';
   
   html += '</body></html>';
   
-  // Abrir janela para imprimir como PDF
   const win = window.open('', '_blank', 'width=800,height=600');
   if (!win) {
     alert('⚠️ Por favor, permita pop-ups para gerar o PDF.');
@@ -442,16 +412,9 @@ function generatePDF() {
   win.document.write(html);
   win.document.close();
   
-  // Esperar carregar e imprimir
   setTimeout(function() {
     win.print();
   }, 500);
-}
-
-// ===== FORMATAR DATA =====
-function formatDate(dateStr) {
-  const parts = dateStr.split('-');
-  return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
 
 // ===== ENVIAR POR WHATSAPP =====
@@ -462,7 +425,6 @@ function sendWhatsApp() {
     return;
   }
   
-  // Calcular totais
   let totalBruto = 0;
   let totalLucro = 0;
   let totalKm = 0;
@@ -474,7 +436,6 @@ function sendWhatsApp() {
     totalKm += ride.kmRodados;
   });
   
-  // Montar mensagem
   let msg = '🚗 *UNDERUBER - RELATÓRIO* 🚗\n';
   msg += '📅 ' + new Date().toLocaleString('pt-BR') + '\n';
   msg += '═'.repeat(35) + '\n\n';
@@ -502,23 +463,17 @@ function sendWhatsApp() {
   msg += '\n📱 UnderUber - App para motoristas';
   msg += '\n🔗 https://AndersonSantoshi.github.io/UnderUber/';
   
-  // Perguntar se quer enviar para si mesmo ou outro número
   const opcao = confirm('Enviar para você mesmo? \nClique em "OK" para enviar para você.\nClique em "Cancelar" para digitar outro número.');
   
-  let numero = '';
   if (opcao) {
-    // Enviar para si mesmo (abre o WhatsApp com o número do usuário)
-    // O WhatsApp Web vai abrir, você escolhe o contato
     const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
     window.open(url, '_blank');
   } else {
-    // Perguntar o número
-    numero = prompt('Digite o número do WhatsApp com DDD (ex: 11999999999):');
+    const numero = prompt('Digite o número do WhatsApp com DDD (ex: 11999999999):');
     if (numero) {
-      // Remover caracteres especiais
-      numero = numero.replace(/\D/g, '');
-      if (numero.length >= 10) {
-        const url = 'https://wa.me/55' + numero + '?text=' + encodeURIComponent(msg);
+      const numLimpo = numero.replace(/\D/g, '');
+      if (numLimpo.length >= 10) {
+        const url = 'https://wa.me/55' + numLimpo + '?text=' + encodeURIComponent(msg);
         window.open(url, '_blank');
       } else {
         alert('⚠️ Número inválido! Use com DDD (ex: 11999999999)');
@@ -550,10 +505,9 @@ function copyRidesData() {
     texto += '─'.repeat(30) + '\n';
   });
   
-  // Copiar para área de transferência
   if (navigator.clipboard) {
     navigator.clipboard.writeText(texto).then(function() {
-      alert('✅ Dados copiados!\nCole onde quiser (WhatsApp, Notes, etc).');
+      alert('✅ Dados copiados! Cole onde quiser.');
     }).catch(function() {
       fallbackCopy(texto);
     });
@@ -571,18 +525,29 @@ function fallbackCopy(text) {
   textarea.select();
   try {
     document.execCommand('copy');
-    alert('✅ Dados copiados!\nCole onde quiser (WhatsApp, Notes, etc).');
+    alert('✅ Dados copiados! Cole onde quiser.');
   } catch (err) {
-    alert('❌ Não foi possível copiar. Selecione o texto manualmente.');
+    alert('❌ Não foi possível copiar.');
   }
   document.body.removeChild(textarea);
 }
+
+// ===== RELÓGIO =====
+function updateClock() {
+  const agora = new Date();
+  const horas = String(agora.getHours()).padStart(2, '0');
+  const minutos = String(agora.getMinutes()).padStart(2, '0');
+  const horaAtual = horas + ':' + minutos;
+  
+  document.querySelectorAll('#horaAtual').forEach(function(el) {
+    el.textContent = horaAtual;
+  });
+}
+
 // ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
   updateClock();
   setInterval(updateClock, 30000);
-  
-  // Verificar mudança de dia a cada 60 segundos
   setInterval(checkDayChange, 60000);
   
   const path = window.location.pathname;
