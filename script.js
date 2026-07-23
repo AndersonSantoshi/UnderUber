@@ -313,6 +313,13 @@ function setupNewRideForm() {
   });
 }
 
+// ===== FUNÇÕES DE EXPORT =====
+
+function formatDate(dateStr) {
+  const parts = dateStr.split('-');
+  return parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
 // ===== GERAR PDF =====
 function generatePDF() {
   const rides = getRides();
@@ -414,9 +421,7 @@ function generatePDF() {
   html += '</div>';
   html += '</body></html>';
   
-  // ===== USAR A API DE IMPRESSÃO DO NAVEGADOR =====
-  // Isso vai abrir a opção "Salvar como PDF" e depois você pode compartilhar
-  
+  // Abrir janela para imprimir/compartilhar
   const win = window.open('', '_blank', 'width=900,height=700');
   if (!win) {
     alert('⚠️ Por favor, permita pop-ups para gerar o PDF.');
@@ -436,11 +441,13 @@ function generatePDF() {
     btn.disabled = false;
   }
   
-  // Aguardar carregamento e abrir impressão
+  // Aguardar carregamento e abrir opções de compartilhamento
   setTimeout(function() {
+    // No iPhone, isso abre o menu de compartilhamento nativo
     win.print();
   }, 800);
 }
+
 // ===== RELÓGIO =====
 function updateClock() {
   const agora = new Date();
