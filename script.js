@@ -70,7 +70,6 @@ function editRide(id) {
   const ride = rides.find(function(r) { return r.id === id; });
   if (!ride) return;
   
-  // Preencher todos os campos do modal com os dados da viagem
   document.getElementById('editId').value = ride.id;
   document.getElementById('editData').value = ride.date;
   document.getElementById('editKmRodados').value = converterPontoParaVirgula(ride.kmRodados.toFixed(2));
@@ -79,7 +78,6 @@ function editRide(id) {
   document.getElementById('editKmPorLitro').value = converterPontoParaVirgula(ride.kmPorLitro.toFixed(1));
   document.getElementById('editAluguelDiario').value = converterPontoParaVirgula(ride.aluguelDiario.toFixed(2));
   
-  // Mostrar o modal
   document.getElementById('editModal').style.display = 'flex';
 }
 
@@ -341,13 +339,11 @@ function setupNewRideForm() {
   var form = document.getElementById('rideForm');
   if (!form) return;
   
-  // Carregar data atual
   var dataField = document.getElementById('data');
   if (dataField) {
     dataField.value = getToday();
   }
   
-  // Carregar parâmetros salvos
   var params = getDefaultParams();
   
   var precoField = document.getElementById('precoCombustivel');
@@ -364,7 +360,6 @@ function setupNewRideForm() {
     aluguelField.value = converterPontoParaVirgula(params.aluguelDiario);
   }
   
-  // Remover event listener anterior
   form.removeEventListener('submit', handleFormSubmit);
   form.addEventListener('submit', handleFormSubmit);
 }
@@ -372,34 +367,29 @@ function setupNewRideForm() {
 function handleFormSubmit(e) {
   e.preventDefault();
   
-  // Pegar valores e converter vírgula para ponto
   var kmRodados = document.getElementById('kmRodados').value;
   var valorBruto = document.getElementById('valorBruto').value;
   var precoCombustivel = document.getElementById('precoCombustivel').value;
   var kmPorLitro = document.getElementById('kmPorLitro').value;
   var aluguelDiario = document.getElementById('aluguelDiario').value;
   
-  // Converter vírgula para ponto
   kmRodados = converterVirgulaParaPonto(kmRodados);
   valorBruto = converterVirgulaParaPonto(valorBruto);
   precoCombustivel = converterVirgulaParaPonto(precoCombustivel);
   kmPorLitro = converterVirgulaParaPonto(kmPorLitro);
   aluguelDiario = converterVirgulaParaPonto(aluguelDiario);
   
-  // Converter para números
   var kmRodadosNum = parseFloat(kmRodados);
   var valorBrutoNum = parseFloat(valorBruto);
   var precoCombustivelNum = parseFloat(precoCombustivel);
   var kmPorLitroNum = parseFloat(kmPorLitro);
   var aluguelDiarioNum = parseFloat(aluguelDiario) || 0;
   
-  // Validar campos obrigatórios
   if (!kmRodadosNum || !valorBrutoNum || !precoCombustivelNum || !kmPorLitroNum) {
     alert('Preencha todos os campos obrigatórios.');
     return;
   }
   
-  // Salvar parâmetros para próximas corridas
   var params = {
     precoCombustivel: precoCombustivel,
     kmPorLitro: kmPorLitro,
@@ -407,7 +397,6 @@ function handleFormSubmit(e) {
   };
   saveDefaultParams(params);
   
-  // Criar objeto da corrida
   var ride = {
     date: document.getElementById('data').value,
     kmRodados: kmRodadosNum,
@@ -424,7 +413,6 @@ function handleFormSubmit(e) {
   addRide(ride);
   alert('Corrida salva com sucesso!');
   
-  // Limpar campos de entrada (exceto parâmetros)
   document.getElementById('kmRodados').value = '';
   document.getElementById('valorBruto').value = '';
   document.getElementById('data').value = getToday();
@@ -607,7 +595,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ===== RECARREGAR QUANDO VOLTAR AO APP =====
 document.addEventListener('visibilitychange', function() {
   if (!document.hidden) {
     recarregarDados();
