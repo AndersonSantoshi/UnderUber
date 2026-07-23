@@ -13,7 +13,6 @@ function saveRides(rides) {
 function addRide(ride) {
   const rides = getRides();
   ride.id = Date.now();
-  // GARANTIR QUE A DATA ESTÁ NO FORMATO CORRETO
   ride.date = ride.date || new Date().toISOString().split('T')[0];
   rides.unshift(ride);
   saveRides(rides);
@@ -112,13 +111,11 @@ function updateDashboard() {
   var rides = getRides();
   var today = getToday();
   
-  // VERIFICAR SE O ELEMENTO EXISTE
   var displayEl = document.getElementById('displayDate');
   if (displayEl) {
     displayEl.textContent = formatDate(selectedDate);
   }
   
-  // FILTRAR CORRIDAS PELA DATA SELECIONADA
   var dayRides = rides.filter(function(r) { 
     return r.date === selectedDate; 
   });
@@ -211,7 +208,6 @@ function updateHistorico() {
     dateDisplay.textContent = formatDate(historicoSelectedDate);
   }
   
-  // FILTRAR CORRIDAS PELA DATA SELECIONADA
   var dayRides = rides.filter(function(r) { 
     return r.date === historicoSelectedDate; 
   });
@@ -312,7 +308,6 @@ function setupNewRideForm() {
     dataField.value = getToday();
   }
   
-  // REMOVER EVENT LISTENER ANTERIOR PARA EVITAR DUPLICIDADE
   form.removeEventListener('submit', handleFormSubmit);
   form.addEventListener('submit', handleFormSubmit);
 }
@@ -334,7 +329,6 @@ function handleFormSubmit(e) {
     return;
   }
   
-  // VERIFICAR SE A DATA FOI PREENCHIDA
   if (!ride.date) {
     ride.date = getToday();
   }
@@ -342,15 +336,13 @@ function handleFormSubmit(e) {
   addRide(ride);
   alert('Corrida salva com sucesso!');
   
-  // LIMPAR FORMULÁRIO
   document.getElementById('rideForm').reset();
   document.getElementById('data').value = getToday();
   
-  // ATUALIZAR DASHBOARD
   updateDashboard();
 }
 
-// ===== GERAR PDF =====
+// ===== GERAR PDF COM BOTÃO VOLTAR =====
 function generatePDF() {
   var rides = getRides();
   if (rides.length === 0) {
@@ -379,8 +371,8 @@ function generatePDF() {
   
   var html = '<html><head><meta charset="UTF-8">';
   html += '<style>';
-  html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; background: white; }';
-  html += '.container { max-width: 800px; margin: 0 auto; }';
+  html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; background: #f5f5f5; }';
+  html += '.container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }';
   html += 'h1 { color: #1a1a2e; text-align: center; font-size: 24px; margin-bottom: 5px; }';
   html += '.subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 30px; }';
   html += '.header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e94560; padding-bottom: 15px; }';
@@ -397,7 +389,10 @@ function generatePDF() {
   html += '.footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }';
   html += '.positive { color: #2ecc71; }';
   html += '.negative { color: #e74c3c; }';
-  html += '@media print { body { padding: 20px; } }';
+  html += '.btn-voltar { display: block; width: 100%; padding: 14px; background: #e94560; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; text-align: center; }';
+  html += '.btn-voltar:hover { background: #c23152; }';
+  html += '.no-print { display: block; }';
+  html += '@media print { .no-print { display: none !important; } .container { box-shadow: none !important; } body { background: white; padding: 10px; } }';
   html += '</style></head><body>';
   
   html += '<div class="container">';
@@ -442,6 +437,9 @@ function generatePDF() {
   html += 'Dados salvos em ' + new Date().toLocaleString('pt-BR');
   html += '</div>';
   
+  // BOTÃO VOLTAR (aparece na tela, não no PDF)
+  html += '<button onclick="window.close()" class="btn-voltar no-print">🔙 Voltar para o Dashboard</button>';
+  
   html += '</div>';
   html += '</body></html>';
   
@@ -483,6 +481,7 @@ function updateClock() {
 
 // ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
+  // CARREGAR DADOS IMEDIATAMENTE
   updateClock();
   setInterval(updateClock, 30000);
   setInterval(checkDayChange, 60000);
@@ -506,5 +505,33 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.addEventListener('click', function(e) {
       if (e.target === this) closeEditModal();
     });
+  }
+});
+
+// ===== FORÇAR CARREGAMENTO QUANDO O APP VOLTAR =====
+// Isso resolve o problema de fechar e abrir o app no iPhone
+window.addEventListener('pageshow', function(event) {
+  // Se a página veio do cache (quando volta ao app)
+  if (event.persisted) {
+    var path = window.location.pathname;
+    if (path.includes('index.html') || path === '/' || path === '') {
+      updateDashboard();
+    }
+    if (path.includes('historico')) {
+      updateHistorico();
+    }
+  }
+});
+
+// ===== TAMBÉM CARREGAR QUANDO A TELA GANHAR FOCO =====
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) {
+    var path = window.location.pathname;
+    if (path.includes('index.html') || path === '/' || path === '') {
+      updateDashboard();
+    }
+    if (path.includes('historico')) {
+      updateHistorico();
+    }
   }
 });
