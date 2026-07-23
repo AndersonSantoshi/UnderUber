@@ -70,6 +70,7 @@ function editRide(id) {
   const ride = rides.find(function(r) { return r.id === id; });
   if (!ride) return;
   
+  // Preencher todos os campos do modal com os dados da viagem
   document.getElementById('editId').value = ride.id;
   document.getElementById('editData').value = ride.date;
   document.getElementById('editKmRodados').value = converterPontoParaVirgula(ride.kmRodados.toFixed(2));
@@ -78,6 +79,7 @@ function editRide(id) {
   document.getElementById('editKmPorLitro').value = converterPontoParaVirgula(ride.kmPorLitro.toFixed(1));
   document.getElementById('editAluguelDiario').value = converterPontoParaVirgula(ride.aluguelDiario.toFixed(2));
   
+  // Mostrar o modal
   document.getElementById('editModal').style.display = 'flex';
 }
 
