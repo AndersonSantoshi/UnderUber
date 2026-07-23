@@ -28,7 +28,7 @@ function getToday() {
 function deleteRide(id) {
   if (!confirm('Tem certeza que deseja excluir esta viagem?')) return;
   let rides = getRides();
-  rides = rides.filter(r => r.id !== id);
+  rides = rides.filter(function(r) { return r.id !== id; });
   saveRides(rides);
   updateHistorico();
   updateDashboard();
@@ -37,7 +37,7 @@ function deleteRide(id) {
 
 function editRide(id) {
   const rides = getRides();
-  const ride = rides.find(r => r.id === id);
+  const ride = rides.find(function(r) { return r.id === id; });
   if (!ride) return;
   
   document.getElementById('editId').value = ride.id;
@@ -54,7 +54,7 @@ function editRide(id) {
 function saveEditRide() {
   const id = parseInt(document.getElementById('editId').value);
   const rides = getRides();
-  const index = rides.findIndex(r => r.id === id);
+  const index = rides.findIndex(function(r) { return r.id === id; });
   
   if (index === -1) return;
   
@@ -81,10 +81,13 @@ function closeEditModal() {
 
 // ===== CÁLCULO POR VIAGEM =====
 function calculateRideProfit(ride) {
-  const { kmRodados, valorBruto, precoCombustivel, kmPorLitro } = ride;
+  var kmRodados = ride.kmRodados;
+  var valorBruto = ride.valorBruto;
+  var precoCombustivel = ride.precoCombustivel;
+  var kmPorLitro = ride.kmPorLitro;
   
-  const custoCombustivel = (kmRodados / kmPorLitro) * precoCombustivel;
-  const lucroViagem = valorBruto - custoCombustivel;
+  var custoCombustivel = (kmRodados / kmPorLitro) * precoCombustivel;
+  var lucroViagem = valorBruto - custoCombustivel;
   
   return {
     custoCombustivel: custoCombustivel,
@@ -94,16 +97,26 @@ function calculateRideProfit(ride) {
   };
 }
 
+// ===== FUNÇÃO FORMATAR DATA =====
+function formatDate(dateStr) {
+  if (!dateStr) return 'Hoje';
+  var parts = dateStr.split('-');
+  return parts[2] + '/' + parts[1] + '/' + parts[0];
+}
+
 // ===== DASHBOARD =====
-let selectedDate = getToday();
+var selectedDate = getToday();
 
 function updateDashboard() {
-  const rides = getRides();
-  const today = getToday();
+  var rides = getRides();
+  var today = getToday();
   
-  document.getElementById('displayDate').textContent = formatDate(selectedDate);
+  var displayEl = document.getElementById('displayDate');
+  if (displayEl) {
+    displayEl.textContent = formatDate(selectedDate);
+  }
   
-  const dayRides = rides.filter(r => r.date === selectedDate);
+  var dayRides = rides.filter(function(r) { return r.date === selectedDate; });
   
   if (dayRides.length === 0) {
     document.getElementById('lucroLiquido').textContent = 'R$ 0,00';
@@ -113,14 +126,11 @@ function updateDashboard() {
     document.getElementById('emptyState').style.display = 'block';
     document.getElementById('recentRides').style.display = 'none';
     
+    var emptyEl = document.getElementById('emptyState');
     if (selectedDate === today) {
-      document.getElementById('emptyState').innerHTML = 
-        '<p>Nenhuma corrida registrada hoje.</p>' +
-        '<p>Vá para Nova Corrida para começar.</p>';
+      emptyEl.innerHTML = '<p>Nenhuma corrida registrada hoje.</p><p>Vá para Nova Corrida para começar.</p>';
     } else {
-      document.getElementById('emptyState').innerHTML = 
-        '<p>Nenhuma corrida registrada neste dia.</p>' +
-        '<p>Selecione outra data.</p>';
+      emptyEl.innerHTML = '<p>Nenhuma corrida registrada neste dia.</p><p>Selecione outra data.</p>';
     }
     return;
   }
@@ -128,34 +138,34 @@ function updateDashboard() {
   document.getElementById('emptyState').style.display = 'none';
   document.getElementById('recentRides').style.display = 'block';
   
-  let somaLucroViagens = 0;
-  let somaBruto = 0;
-  let somaKm = 0;
-  let totalMargem = 0;
+  var somaLucroViagens = 0;
+  var somaBruto = 0;
+  var somaKm = 0;
+  var totalMargem = 0;
   
   dayRides.forEach(function(ride) {
-    const result = calculateRideProfit(ride);
+    var result = calculateRideProfit(ride);
     somaLucroViagens += result.lucroViagem;
     somaBruto += ride.valorBruto;
     somaKm += ride.kmRodados;
     totalMargem += result.margem;
   });
   
-  const aluguelDiario = dayRides[0].aluguelDiario || 0;
-  const lucroDia = somaLucroViagens - aluguelDiario;
-  const mediaMargem = dayRides.length > 0 ? totalMargem / dayRides.length : 0;
-  const ganhoPorKm = somaKm > 0 ? somaBruto / somaKm : 0;
+  var aluguelDiario = dayRides[0].aluguelDiario || 0;
+  var lucroDia = somaLucroViagens - aluguelDiario;
+  var mediaMargem = dayRides.length > 0 ? totalMargem / dayRides.length : 0;
+  var ganhoPorKm = somaKm > 0 ? somaBruto / somaKm : 0;
   
   document.getElementById('lucroLiquido').textContent = 'R$ ' + lucroDia.toFixed(2);
   document.getElementById('ganhoPorKm').textContent = 'R$ ' + ganhoPorKm.toFixed(2);
   document.getElementById('totalCorridas').textContent = dayRides.length;
   document.getElementById('margemMedia').textContent = mediaMargem.toFixed(1) + '%';
   
-  const list = document.getElementById('ridesList');
+  var list = document.getElementById('ridesList');
   list.innerHTML = '';
   dayRides.forEach(function(ride) {
-    const result = calculateRideProfit(ride);
-    const div = document.createElement('div');
+    var result = calculateRideProfit(ride);
+    var div = document.createElement('div');
     div.className = 'ride-item';
     div.innerHTML =
       '<div class="ride-info">' +
@@ -171,7 +181,7 @@ function updateDashboard() {
 }
 
 function changeDate(delta) {
-  const date = new Date(selectedDate + 'T00:00:00');
+  var date = new Date(selectedDate + 'T00:00:00');
   date.setDate(date.getDate() + delta);
   selectedDate = date.toISOString().split('T')[0];
   updateDashboard();
@@ -183,17 +193,20 @@ function goToToday() {
 }
 
 // ===== HISTÓRICO =====
-let historicoSelectedDate = getToday();
+var historicoSelectedDate = getToday();
 
 function updateHistorico() {
-  const rides = getRides();
-  const container = document.getElementById('historicoList');
-  const summary = document.getElementById('daySummary');
-  const today = getToday();
+  var rides = getRides();
+  var container = document.getElementById('historicoList');
+  var summary = document.getElementById('daySummary');
+  var today = getToday();
   
-  document.getElementById('historicoDate').textContent = formatDate(historicoSelectedDate);
+  var dateDisplay = document.getElementById('historicoDate');
+  if (dateDisplay) {
+    dateDisplay.textContent = formatDate(historicoSelectedDate);
+  }
   
-  const dayRides = rides.filter(r => r.date === historicoSelectedDate);
+  var dayRides = rides.filter(function(r) { return r.date === historicoSelectedDate; });
   
   if (!container) return;
   
@@ -203,7 +216,7 @@ function updateHistorico() {
       summary.style.display = 'block';
       summary.querySelector('.day-date').textContent = formatDate(historicoSelectedDate);
       summary.querySelector('.day-rides').textContent = '0 corrida';
-      const profitEl = summary.querySelector('.day-profit');
+      var profitEl = summary.querySelector('.day-profit');
       profitEl.textContent = 'Lucro do dia R$ 0,00';
       profitEl.className = 'day-profit';
     }
@@ -212,29 +225,29 @@ function updateHistorico() {
   
   if (summary) summary.style.display = 'block';
   
-  let somaViagens = 0;
-  let aluguelDia = 0;
+  var somaViagens = 0;
+  var aluguelDia = 0;
   
   dayRides.forEach(function(ride) {
-    const result = calculateRideProfit(ride);
+    var result = calculateRideProfit(ride);
     somaViagens += result.lucroViagem;
     aluguelDia = ride.aluguelDiario || 0;
   });
   
-  const lucroDia = somaViagens - aluguelDia;
+  var lucroDia = somaViagens - aluguelDia;
   
   if (summary) {
     summary.querySelector('.day-date').textContent = formatDate(historicoSelectedDate);
     summary.querySelector('.day-rides').textContent = dayRides.length + ' corrida' + (dayRides.length > 1 ? 's' : '');
-    const profitEl = summary.querySelector('.day-profit');
-    profitEl.textContent = 'Lucro do dia R$ ' + lucroDia.toFixed(2);
-    profitEl.className = 'day-profit ' + (lucroDia >= 0 ? 'positive' : 'negative');
+    var profitEl2 = summary.querySelector('.day-profit');
+    profitEl2.textContent = 'Lucro do dia R$ ' + lucroDia.toFixed(2);
+    profitEl2.className = 'day-profit ' + (lucroDia >= 0 ? 'positive' : 'negative');
   }
   
   container.innerHTML = '';
   dayRides.forEach(function(ride) {
-    const result = calculateRideProfit(ride);
-    const div = document.createElement('div');
+    var result = calculateRideProfit(ride);
+    var div = document.createElement('div');
     div.className = 'ride-item';
     div.innerHTML =
       '<div style="flex:1;">' +
@@ -256,7 +269,7 @@ function updateHistorico() {
 }
 
 function changeHistoricoDate(delta) {
-  const date = new Date(historicoSelectedDate + 'T00:00:00');
+  var date = new Date(historicoSelectedDate + 'T00:00:00');
   date.setDate(date.getDate() + delta);
   historicoSelectedDate = date.toISOString().split('T')[0];
   updateHistorico();
@@ -268,10 +281,10 @@ function goToHistoricoToday() {
 }
 
 // ===== VERIFICAR MUDANÇA DE DIA =====
-let currentDay = getToday();
+var currentDay = getToday();
 
 function checkDayChange() {
-  const today = getToday();
+  var today = getToday();
   if (today !== currentDay) {
     currentDay = today;
     selectedDate = today;
@@ -283,15 +296,18 @@ function checkDayChange() {
 
 // ===== NOVA CORRIDA =====
 function setupNewRideForm() {
-  const form = document.getElementById('rideForm');
+  var form = document.getElementById('rideForm');
   if (!form) return;
   
-  document.getElementById('data').value = getToday();
+  var dataField = document.getElementById('data');
+  if (dataField) {
+    dataField.value = getToday();
+  }
   
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const ride = {
+    var ride = {
       date: document.getElementById('data').value,
       kmRodados: parseFloat(document.getElementById('kmRodados').value),
       valorBruto: parseFloat(document.getElementById('valorBruto').value),
@@ -313,44 +329,34 @@ function setupNewRideForm() {
   });
 }
 
-// ===== FUNÇÕES DE EXPORT =====
-
-function formatDate(dateStr) {
-  const parts = dateStr.split('-');
-  return parts[2] + '/' + parts[1] + '/' + parts[0];
-}
-
 // ===== GERAR PDF =====
 function generatePDF() {
-  const rides = getRides();
+  var rides = getRides();
   if (rides.length === 0) {
     alert('📭 Nenhuma corrida registrada!');
     return;
   }
   
-  // Mostrar loading
-  const btn = document.querySelector('.btn-pdf');
+  var btn = document.querySelector('.btn-pdf');
   if (btn) {
     btn.textContent = '⏳ Gerando...';
     btn.disabled = true;
   }
   
-  // Calcular totais
-  let totalBruto = 0;
-  let totalLucro = 0;
-  let totalKm = 0;
-  let totalCombustivel = 0;
+  var totalBruto = 0;
+  var totalLucro = 0;
+  var totalKm = 0;
+  var totalCombustivel = 0;
   
   rides.forEach(function(ride) {
-    const result = calculateRideProfit(ride);
+    var result = calculateRideProfit(ride);
     totalBruto += ride.valorBruto;
     totalLucro += result.lucroViagem;
     totalKm += ride.kmRodados;
     totalCombustivel += result.custoCombustivel;
   });
   
-  // Construir HTML do PDF
-  let html = '<html><head><meta charset="UTF-8">';
+  var html = '<html><head><meta charset="UTF-8">';
   html += '<style>';
   html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; background: white; }';
   html += '.container { max-width: 800px; margin: 0 auto; }';
@@ -375,7 +381,6 @@ function generatePDF() {
   
   html += '<div class="container">';
   
-  // Cabeçalho
   html += '<div class="header">';
   html += '<div class="icon">🚗</div>';
   html += '<h1>UnderUber</h1>';
@@ -383,7 +388,6 @@ function generatePDF() {
   html += '<small>Gerado em: ' + new Date().toLocaleString('pt-BR') + '</small>';
   html += '</div>';
   
-  // Resumo
   html += '<div class="resumo">';
   html += '<h3>📊 RESUMO DO PERÍODO</h3>';
   html += '<p>📍 Total de Corridas: <span class="value">' + rides.length + '</span></p>';
@@ -393,14 +397,13 @@ function generatePDF() {
   html += '<p>💵 Lucro Total: <span class="value positive">R$ ' + totalLucro.toFixed(2) + '</span></p>';
   html += '</div>';
   
-  // Tabela
   html += '<h3 style="margin-top:25px;">📋 DETALHES DAS CORRIDAS</h3>';
   html += '<table>';
   html += '<tr><th>#</th><th>Data</th><th>KM</th><th>Valor (R$)</th><th>Combustível (R$)</th><th>Lucro (R$)</th></tr>';
   
   rides.forEach(function(ride, index) {
-    const result = calculateRideProfit(ride);
-    const profitClass = result.lucroViagem >= 0 ? 'positive' : 'negative';
+    var result = calculateRideProfit(ride);
+    var profitClass = result.lucroViagem >= 0 ? 'positive' : 'negative';
     html += '<tr>';
     html += '<td>' + (index + 1) + '</td>';
     html += '<td>' + formatDate(ride.date) + '</td>';
@@ -421,8 +424,7 @@ function generatePDF() {
   html += '</div>';
   html += '</body></html>';
   
-  // Abrir janela para imprimir/compartilhar
-  const win = window.open('', '_blank', 'width=900,height=700');
+  var win = window.open('', '_blank', 'width=900,height=700');
   if (!win) {
     alert('⚠️ Por favor, permita pop-ups para gerar o PDF.');
     if (btn) {
@@ -435,29 +437,27 @@ function generatePDF() {
   win.document.write(html);
   win.document.close();
   
-  // Restaurar botão
   if (btn) {
     btn.textContent = '📄 Gerar PDF';
     btn.disabled = false;
   }
   
-  // Aguardar carregamento e abrir opções de compartilhamento
   setTimeout(function() {
-    // No iPhone, isso abre o menu de compartilhamento nativo
     win.print();
   }, 800);
 }
 
 // ===== RELÓGIO =====
 function updateClock() {
-  const agora = new Date();
-  const horas = String(agora.getHours()).padStart(2, '0');
-  const minutos = String(agora.getMinutes()).padStart(2, '0');
-  const horaAtual = horas + ':' + minutos;
+  var agora = new Date();
+  var horas = String(agora.getHours()).padStart(2, '0');
+  var minutos = String(agora.getMinutes()).padStart(2, '0');
+  var horaAtual = horas + ':' + minutos;
   
-  document.querySelectorAll('#horaAtual').forEach(function(el) {
-    el.textContent = horaAtual;
-  });
+  var elementos = document.querySelectorAll('#horaAtual');
+  for (var i = 0; i < elementos.length; i++) {
+    elementos[i].textContent = horaAtual;
+  }
 }
 
 // ===== INICIALIZAÇÃO =====
@@ -466,7 +466,7 @@ document.addEventListener('DOMContentLoaded', function() {
   setInterval(updateClock, 30000);
   setInterval(checkDayChange, 60000);
   
-  const path = window.location.pathname;
+  var path = window.location.pathname;
   
   if (path.includes('index.html') || path === '/' || path === '') {
     updateDashboard();
@@ -480,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateHistorico();
   }
   
-  const modal = document.getElementById('editModal');
+  var modal = document.getElementById('editModal');
   if (modal) {
     modal.addEventListener('click', function(e) {
       if (e.target === this) closeEditModal();
