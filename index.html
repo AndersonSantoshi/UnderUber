@@ -1,17 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UnderUber - Dashboard</title>
-  <link rel="manifest" href="manifest.json">
+  <title>UnderUber</title>
   <link rel="stylesheet" href="style.css">
-  
-  <!-- ÍCONES PARA IPHONE -->
-  <link rel="apple-touch-icon" href="icon-iphone.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="icon-iphone.png">
-  <link rel="apple-touch-icon" sizes="167x167" href="icon-iphone.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="icon-iphone.png">
-  
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="UnderUber">
 </head>
+<body>
+  <div style="background:#0A0A0A; color:#FF8C00; text-align:center; padding:50px; min-height:100vh;">
+    <h1 style="font-size:48px;">🚗</h1>
+    <h1 style="color:#FFFFFF;">UnderUber</h1>
+    <p style="color:#AAAAAA;">Carregando...</p>
+    <p style="color:#666; font-size:12px; margin-top:30px;">Versão de teste</p>
+  </div>
+  <script>
+    // Redirecionar para o app completo após 2 segundos
+    setTimeout(function() {
+      window.location.href = "index.html?v=2";
+    }, 2000);
+  </script>
+</body>
+</html>
