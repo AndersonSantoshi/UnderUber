@@ -13,6 +13,7 @@ function saveRides(rides) {
 function addRide(ride) {
   const rides = getRides();
   ride.id = Date.now();
+  // GARANTIR QUE A DATA ESTÁ NO FORMATO CORRETO
   ride.date = ride.date || new Date().toISOString().split('T')[0];
   rides.unshift(ride);
   saveRides(rides);
@@ -111,12 +112,16 @@ function updateDashboard() {
   var rides = getRides();
   var today = getToday();
   
+  // VERIFICAR SE O ELEMENTO EXISTE
   var displayEl = document.getElementById('displayDate');
   if (displayEl) {
     displayEl.textContent = formatDate(selectedDate);
   }
   
-  var dayRides = rides.filter(function(r) { return r.date === selectedDate; });
+  // FILTRAR CORRIDAS PELA DATA SELECIONADA
+  var dayRides = rides.filter(function(r) { 
+    return r.date === selectedDate; 
+  });
   
   if (dayRides.length === 0) {
     document.getElementById('lucroLiquido').textContent = 'R$ 0,00';
@@ -206,7 +211,10 @@ function updateHistorico() {
     dateDisplay.textContent = formatDate(historicoSelectedDate);
   }
   
-  var dayRides = rides.filter(function(r) { return r.date === historicoSelectedDate; });
+  // FILTRAR CORRIDAS PELA DATA SELECIONADA
+  var dayRides = rides.filter(function(r) { 
+    return r.date === historicoSelectedDate; 
+  });
   
   if (!container) return;
   
@@ -304,29 +312,42 @@ function setupNewRideForm() {
     dataField.value = getToday();
   }
   
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    var ride = {
-      date: document.getElementById('data').value,
-      kmRodados: parseFloat(document.getElementById('kmRodados').value),
-      valorBruto: parseFloat(document.getElementById('valorBruto').value),
-      precoCombustivel: parseFloat(document.getElementById('precoCombustivel').value),
-      kmPorLitro: parseFloat(document.getElementById('kmPorLitro').value),
-      aluguelDiario: parseFloat(document.getElementById('aluguelDiario').value) || 0
-    };
-    
-    if (!ride.kmRodados || !ride.valorBruto || !ride.precoCombustivel || !ride.kmPorLitro) {
-      alert('Preencha todos os campos obrigatórios.');
-      return;
-    }
-    
-    addRide(ride);
-    alert('Corrida salva com sucesso!');
-    form.reset();
-    document.getElementById('data').value = getToday();
-    updateDashboard();
-  });
+  // REMOVER EVENT LISTENER ANTERIOR PARA EVITAR DUPLICIDADE
+  form.removeEventListener('submit', handleFormSubmit);
+  form.addEventListener('submit', handleFormSubmit);
+}
+
+function handleFormSubmit(e) {
+  e.preventDefault();
+  
+  var ride = {
+    date: document.getElementById('data').value,
+    kmRodados: parseFloat(document.getElementById('kmRodados').value),
+    valorBruto: parseFloat(document.getElementById('valorBruto').value),
+    precoCombustivel: parseFloat(document.getElementById('precoCombustivel').value),
+    kmPorLitro: parseFloat(document.getElementById('kmPorLitro').value),
+    aluguelDiario: parseFloat(document.getElementById('aluguelDiario').value) || 0
+  };
+  
+  if (!ride.kmRodados || !ride.valorBruto || !ride.precoCombustivel || !ride.kmPorLitro) {
+    alert('Preencha todos os campos obrigatórios.');
+    return;
+  }
+  
+  // VERIFICAR SE A DATA FOI PREENCHIDA
+  if (!ride.date) {
+    ride.date = getToday();
+  }
+  
+  addRide(ride);
+  alert('Corrida salva com sucesso!');
+  
+  // LIMPAR FORMULÁRIO
+  document.getElementById('rideForm').reset();
+  document.getElementById('data').value = getToday();
+  
+  // ATUALIZAR DASHBOARD
+  updateDashboard();
 }
 
 // ===== GERAR PDF =====
