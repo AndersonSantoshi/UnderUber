@@ -23,52 +23,53 @@ body {
 .header {
   background: linear-gradient(135deg, #0A0A0A, #1A1A1A);
   color: white;
-  padding: 20px 24px 35px;
+  padding: 16px 24px 30px;
   border-radius: 0 0 30px 30px;
-  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.05);
-  border-bottom: 2px solid rgba(255, 215, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(255, 140, 0, 0.05);
+  border-bottom: 2px solid rgba(255, 140, 0, 0.15);
 }
 
-.header-time {
-  font-size: 13px;
-  opacity: 0.6;
-  margin-bottom: 6px;
-  font-weight: 300;
-  color: #AAAAAA;
-  text-align: center;
-}
-
-/* ===== HEADER BRAND ===== */
+/* ===== HEADER BRAND - TÍTULO ACIMA, LOGO CENTRO, HORA ABAIXO ===== */
 .header-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 4px 0;
+  gap: 4px;
+  padding: 0;
+}
+
+.header-brand .header-subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FF8C00;
+  text-align: center;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .brand-icon-img {
   display: block;
-  width: 80px;
-  height: 80px;
+  width: 140px;
+  height: 140px;
   border-radius: 0;
   background: transparent !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  margin: 4px 0;
   object-fit: contain;
   image-rendering: auto;
 }
 
-.header-brand .header-subtitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #FFD700;
+.header-time {
+  font-size: 14px;
+  opacity: 0.5;
+  font-weight: 300;
+  color: #AAAAAA;
   text-align: center;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  margin-top: 2px;
 }
 
 /* ===== SELETOR DE DATA ===== */
@@ -91,7 +92,7 @@ body {
   font-size: 20px;
   padding: 4px 12px;
   cursor: pointer;
-  color: #FFD700;
+  color: #FF8C00;
   border-radius: 8px;
   transition: all 0.2s;
 }
@@ -109,7 +110,7 @@ body {
 }
 
 .date-today {
-  background: #FFD700;
+  background: #FF8C00;
   color: #0A0A0A;
   border: none;
   padding: 4px 12px;
@@ -121,7 +122,7 @@ body {
 }
 
 .date-today:hover {
-  background: #FFA500;
+  background: #E67E22;
   transform: scale(1.05);
 }
 
@@ -134,7 +135,7 @@ body {
 .btn-pdf {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: linear-gradient(135deg, #FF8C00, #E67E22);
   color: #0A0A0A;
   border: none;
   border-radius: 12px;
@@ -142,7 +143,7 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,9 +151,9 @@ body {
 }
 
 .btn-pdf:hover {
-  background: linear-gradient(135deg, #FFC107, #FF8F00);
+  background: linear-gradient(135deg, #E67E22, #D35400);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
 }
 
 .btn-pdf:active {
@@ -180,7 +181,7 @@ body {
 
 .card:hover {
   transform: translateY(-2px);
-  border-color: #FFD700;
+  border-color: #FF8C00;
 }
 
 .card-label {
@@ -195,7 +196,7 @@ body {
 .card-value {
   font-size: 22px;
   font-weight: 700;
-  color: #FFD700;
+  color: #FF8C00;
 }
 
 /* ===== EMPTY STATE ===== */
@@ -213,6 +214,11 @@ body {
 .empty-state p:first-child {
   font-weight: 500;
   color: #888;
+}
+
+/* ===== RECENT RIDES - SEM TÍTULO ===== */
+.recent-rides {
+  padding: 0 20px 20px;
 }
 
 /* ===== FORMULÁRIO ===== */
@@ -250,9 +256,9 @@ body {
 
 .form-group input:focus {
   outline: none;
-  border-color: #FFD700;
+  border-color: #FF8C00;
   background: #0A0A0A;
-  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
 }
 
 .form-group input::placeholder {
@@ -289,7 +295,7 @@ input::placeholder {
   font-size: 17px;
   font-weight: 600;
   margin: 24px 0 16px;
-  color: #FFD700;
+  color: #FF8C00;
 }
 
 /* ===== BOTÕES ===== */
@@ -311,15 +317,15 @@ input::placeholder {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #FFD700, #FFA500);
+  background: linear-gradient(135deg, #FF8C00, #E67E22);
   color: #0A0A0A;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #FFC107, #FF8F00);
+  background: linear-gradient(135deg, #E67E22, #D35400);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
 }
 
 .btn-secondary {
@@ -365,7 +371,7 @@ input::placeholder {
 }
 
 .nav-item.active {
-  color: #FFD700;
+  color: #FF8C00;
 }
 
 .nav-item.active::after {
@@ -376,7 +382,7 @@ input::placeholder {
   transform: translateX(-50%);
   width: 20px;
   height: 3px;
-  background: #FFD700;
+  background: #FF8C00;
   border-radius: 0 0 4px 4px;
 }
 
@@ -399,8 +405,8 @@ input::placeholder {
 }
 
 .ride-item:hover {
-  border-color: #FFD700;
-  box-shadow: 0 2px 12px rgba(255, 215, 0, 0.05);
+  border-color: #FF8C00;
+  box-shadow: 0 2px 12px rgba(255, 140, 0, 0.05);
 }
 
 .ride-km {
@@ -411,7 +417,7 @@ input::placeholder {
 
 .ride-value {
   font-weight: 600;
-  color: #FFD700;
+  color: #FF8C00;
   font-size: 15px;
 }
 
@@ -441,7 +447,7 @@ input::placeholder {
 .day-date {
   font-size: 18px;
   font-weight: 700;
-  color: #FFD700;
+  color: #FF8C00;
 }
 
 .day-rides {
@@ -464,17 +470,6 @@ input::placeholder {
   color: #4CAF50;
 }
 
-.recent-rides {
-  padding: 0 20px 20px;
-}
-
-.recent-rides h2 {
-  font-size: 16px;
-  color: #FFD700;
-  margin-bottom: 14px;
-  font-weight: 600;
-}
-
 /* ===== BOTÕES EDITAR/EXCLUIR ===== */
 .btn-edit, .btn-delete {
   border: none;
@@ -487,7 +482,7 @@ input::placeholder {
 }
 
 .btn-edit:hover {
-  background: rgba(255, 215, 0, 0.1);
+  background: rgba(255, 140, 0, 0.1);
   transform: scale(1.1);
 }
 
@@ -544,7 +539,7 @@ input::placeholder {
 .modal-header h2 {
   font-size: 20px;
   margin: 0;
-  color: #FFD700;
+  color: #FF8C00;
 }
 
 .modal-close {
@@ -557,7 +552,7 @@ input::placeholder {
 }
 
 .modal-close:hover {
-  color: #FFD700;
+  color: #FF8C00;
 }
 
 /* ===== SCROLLBAR ===== */
@@ -570,7 +565,7 @@ input::placeholder {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #FFD700;
+  background: #FF8C00;
   border-radius: 10px;
 }
 
@@ -607,11 +602,11 @@ input::placeholder {
   }
   
   .brand-icon-img {
-    width: 70px;
-    height: 70px;
+    width: 120px;
+    height: 120px;
   }
   
   .header-brand .header-subtitle {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
