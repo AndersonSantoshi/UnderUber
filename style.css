@@ -23,7 +23,7 @@ body {
 /* ===== HEADER - FUNDO PRETO PURO ===== */
 .header {
   background: #0A0A0A;
-  padding: 16px 24px 20px;
+  padding: 0;
   border-bottom: none;
   position: sticky;
   top: 0;
@@ -33,28 +33,29 @@ body {
   margin: 0 auto;
 }
 
-/* ===== HEADER BRAND - SEM TÍTULO ===== */
+/* ===== HEADER BRAND - BANNER ===== */
 .header-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 0;
   background: #0A0A0A;
+  width: 100%;
+  padding: 0 8px;
 }
 
 .brand-icon-img {
   display: block;
-  width: 160px;
-  height: 160px;
+  width: 100%;
+  max-width: 412px;
+  height: auto;
   border-radius: 0;
   background: #0A0A0A !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  margin: 0;
+  margin: 0 auto;
   object-fit: contain;
 }
 
@@ -64,6 +65,7 @@ body {
   color: #FFFFFF;
   text-align: center;
   margin-top: 2px;
+  margin-bottom: 4px;
   opacity: 0.6;
 }
 
@@ -615,7 +617,7 @@ input::placeholder {
   }
   
   .brand-icon-img {
-    width: 140px;
-    height: 140px;
+    width: 100%;
+    max-width: 100%;
   }
 }
