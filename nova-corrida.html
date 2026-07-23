@@ -1,91 +1,80 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2709
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UnderUber - Nova Corrida</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <div class="header-time" id="horaAtual">22:28</div>
+      <div class="header-brand">
+        <span class="brand-icon">🚗</span>
+        <h1 class="header-title">UnderUber</h1>
+        <span class="header-subtitle">Nova Corrida</span>
+      </div>
+    </header>
 
-\f0\fs24 \cf0 <!DOCTYPE html>\
-<html lang="pt-BR">\
-<head>\
-  <meta charset="UTF-8">\
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">\
-  <title>Uber Profit - Nova Corrida</title>\
-  <link rel="stylesheet" href="style.css">\
-</head>\
-<body>\
-  <div class="app-container">\
-    <header class="header">\
-      <div class="header-time">22:28</div>\
-      <h1 class="header-title">Nova Corrida</h1>\
-    </header>\
-\
-    <form id="rideForm" class="form-container">\
-      <!-- Data -->\
-      <div class="form-group">\
-        <label>Data</label>\
-        <input type="date" id="data" value="2026-07-22">\
-      </div>\
-\
-      <!-- KM Rodados -->\
-      <div class="form-group">\
-        <label>KM Rodados</label>\
-        <input type="number" id="kmRodados" placeholder="85" step="0.1">\
-      </div>\
-\
-      <!-- Valor Bruto -->\
-      <div class="form-group">\
-        <label>Valor Bruto (R$)</label>\
-        <input type="number" id="valorBruto" placeholder="185,53" step="0.01">\
-      </div>\
-\
-      <h3 class="section-title">Par\'e2metros de Custo</h3>\
-\
-      <!-- Pre\'e7o Combust\'edvel -->\
-      <div class="form-group">\
-        <label>Pre\'e7o Combust\'edvel (R$)</label>\
-        <div class="input-with-label">\
-          <input type="number" id="precoCombustivel" value="3.69" step="0.01">\
-          <span class="input-suffix">Por litro</span>\
-        </div>\
-      </div>\
-\
-      <!-- KM por Litro -->\
-      <div class="form-group">\
-        <label>KM por Litro</label>\
-        <input type="number" id="kmPorLitro" value="7.4" step="0.1">\
-      </div>\
-\
-      <!-- Aluguel Di\'e1rio -->\
-      <div class="form-group">\
-        <label>Aluguel Di\'e1rio (R$)</label>\
-        <input type="number" id="aluguelDiario" value="114.29" step="0.01">\
-      </div>\
-\
-      <!-- Bot\'f5es -->\
-      <div class="form-actions">\
-        <button type="submit" class="btn btn-primary">Salvar Corrida</button>\
-        <button type="reset" class="btn btn-secondary">Cancelar</button>\
-      </div>\
-    </form>\
-\
-    <!-- Bottom Navigation -->\
-    <nav class="bottom-nav">\
-      <a href="index.html" class="nav-item">\
-        <span>\uc0\u55357 \u56522 </span>\
-        <span>Dashboard</span>\
-      </a>\
-      <a href="nova-corrida.html" class="nav-item active">\
-        <span>\uc0\u10133 </span>\
-        <span>Nova Corrida</span>\
-      </a>\
-      <a href="historico.html" class="nav-item">\
-        <span>\uc0\u55357 \u56523 </span>\
-        <span>Hist\'f3rico</span>\
-      </a>\
-    </nav>\
-  </div>\
-\
-  <script src="script.js"></script>\
-</body>\
-</html>}
+    <form id="rideForm" class="form-container">
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" id="data" value="2026-07-22">
+      </div>
+
+      <div class="form-group">
+        <label>KM Rodados</label>
+        <input type="number" id="kmRodados" placeholder="85" step="0.1" required>
+      </div>
+
+      <div class="form-group">
+        <label>Valor Bruto (R$)</label>
+        <input type="number" id="valorBruto" placeholder="185,53" step="0.01" required>
+      </div>
+
+      <h3 class="section-title">Parâmetros de Custo</h3>
+
+      <div class="form-group">
+        <label>Preço Combustível (R$)</label>
+        <div class="input-with-label">
+          <input type="number" id="precoCombustivel" value="3.69" step="0.01">
+          <span class="input-suffix">Por litro</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>KM por Litro</label>
+        <input type="number" id="kmPorLitro" value="7.4" step="0.1">
+      </div>
+
+      <div class="form-group">
+        <label>Aluguel Diário (R$)</label>
+        <input type="number" id="aluguelDiario" value="114.29" step="0.01">
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Salvar Corrida</button>
+        <button type="reset" class="btn btn-secondary">Cancelar</button>
+      </div>
+    </form>
+
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <span>📊</span>
+        <span>Dashboard</span>
+      </a>
+      <a href="nova-corrida.html" class="nav-item active">
+        <span>➕</span>
+        <span>Nova Corrida</span>
+      </a>
+      <a href="historico.html" class="nav-item">
+        <span>📋</span>
+        <span>Histórico</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
