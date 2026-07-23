@@ -631,4 +631,20 @@ input::placeholder {
   margin-left: auto;
   font-weight: 300;
   color: #AAAAAA;
+  /* ===== REMOVER BORDA BRANCA DA LOGO ===== */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon-img {
+  width: 40px;
+  height: 40px;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
 }
