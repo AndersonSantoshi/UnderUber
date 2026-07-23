@@ -601,4 +601,9 @@ input::placeholder {
   .date-display {
     font-size: 13px;
   }
+  /* ===== LOGO ===== */
+.brand-icon-img {
+  border-radius: 12px;
+  background: #0A0A0A;
+  padding: 2px;
 }
