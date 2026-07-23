@@ -17,6 +17,14 @@
       </div>
     </header>
 
+    <!-- SELETOR DE DATA -->
+    <div class="date-selector">
+      <button onclick="changeDate(-1)" class="date-btn">◀</button>
+      <span id="displayDate" class="date-display">Hoje</span>
+      <button onclick="changeDate(1)" class="date-btn">▶</button>
+      <button onclick="goToToday()" class="date-today">Hoje</button>
+    </div>
+
     <section class="dashboard-cards">
       <div class="card">
         <div class="card-label">Lucro Líquido</div>
@@ -42,7 +50,7 @@
     </div>
 
     <section class="recent-rides" id="recentRides" style="display:none;">
-      <h2>Últimas Corridas</h2>
+      <h2>Corridas do Dia</h2>
       <div id="ridesList"></div>
     </section>
 
