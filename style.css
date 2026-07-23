@@ -606,4 +606,29 @@ input::placeholder {
   border-radius: 12px;
   background: #0A0A0A;
   padding: 2px;
+  /* ===== CORREÇÃO DA LOGO - REMOVER BORDA BRANCA ===== */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon-img {
+  display: block;
+  width: 44px;
+  height: 44px;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  object-fit: contain;
+}
+
+.header-brand .header-subtitle {
+  font-size: 14px;
+  opacity: 0.6;
+  margin-left: auto;
+  font-weight: 300;
+  color: #AAAAAA;
 }
