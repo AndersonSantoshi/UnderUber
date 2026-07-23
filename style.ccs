@@ -1,287 +1,304 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2709
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-\f0\fs24 \cf0 * \{\
-  margin: 0;\
-  padding: 0;\
-  box-sizing: border-box;\
-\}\
-\
-body \{\
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\
-  background: #f5f5f5;\
-  color: #333;\
-\}\
-\
-.app-container \{\
-  max-width: 428px;\
-  margin: 0 auto;\
-  background: white;\
-  min-height: 100vh;\
-  padding-bottom: 80px;\
-  position: relative;\
-\}\
-\
-/* Header */\
-.header \{\
-  background: linear-gradient(135deg, #6C63FF, #3F3D9E);\
-  color: white;\
-  padding: 20px 20px 30px;\
-  border-radius: 0 0 30px 30px;\
-\}\
-\
-.header-time \{\
-  font-size: 14px;\
-  opacity: 0.8;\
-  margin-bottom: 5px;\
-\}\
-\
-.header-title \{\
-  font-size: 24px;\
-  font-weight: 600;\
-\}\
-\
-/* Cards Dashboard */\
-.dashboard-cards \{\
-  display: grid;\
-  grid-template-columns: 1fr 1fr;\
-  gap: 12px;\
-  padding: 20px;\
-  margin-top: -20px;\
-\}\
-\
-.card \{\
-  background: white;\
-  padding: 16px;\
-  border-radius: 16px;\
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);\
-  text-align: center;\
-\}\
-\
-.card-label \{\
-  font-size: 12px;\
-  color: #666;\
-  margin-bottom: 4px;\
-\}\
-\
-.card-value \{\
-  font-size: 20px;\
-  font-weight: 700;\
-  color: #1a1a1a;\
-\}\
-\
-/* Empty State */\
-.empty-state \{\
-  text-align: center;\
-  padding: 40px 20px;\
-  color: #999;\
-\}\
-\
-.empty-state p \{\
-  margin: 4px 0;\
-\}\
-\
-/* Formul\'e1rio */\
-.form-container \{\
-  padding: 20px;\
-\}\
-\
-.form-group \{\
-  margin-bottom: 20px;\
-\}\
-\
-.form-group label \{\
-  display: block;\
-  font-size: 14px;\
-  font-weight: 500;\
-  color: #555;\
-  margin-bottom: 6px;\
-\}\
-\
-.form-group input \{\
-  width: 100%;\
-  padding: 12px 16px;\
-  border: 1px solid #ddd;\
-  border-radius: 12px;\
-  font-size: 16px;\
-  background: #fafafa;\
-\}\
-\
-.form-group input:focus \{\
-  outline: none;\
-  border-color: #6C63FF;\
-  background: white;\
-\}\
-\
-.input-with-label \{\
-  display: flex;\
-  align-items: center;\
-  gap: 8px;\
-\}\
-\
-.input-with-label input \{\
-  flex: 1;\
-\}\
-\
-.input-suffix \{\
-  font-size: 14px;\
-  color: #888;\
-  white-space: nowrap;\
-\}\
-\
-.section-title \{\
-  font-size: 18px;\
-  font-weight: 600;\
-  margin: 24px 0 16px;\
-  color: #333;\
-\}\
-\
-/* Bot\'f5es */\
-.form-actions \{\
-  display: flex;\
-  gap: 12px;\
-  margin-top: 30px;\
-\}\
-\
-.btn \{\
-  flex: 1;\
-  padding: 14px;\
-  border: none;\
-  border-radius: 12px;\
-  font-size: 16px;\
-  font-weight: 600;\
-  cursor: pointer;\
-  transition: all 0.2s;\
-\}\
-\
-.btn-primary \{\
-  background: #6C63FF;\
-  color: white;\
-\}\
-\
-.btn-primary:hover \{\
-  background: #5a52e0;\
-\}\
-\
-.btn-secondary \{\
-  background: #f0f0f0;\
-  color: #666;\
-\}\
-\
-.btn-secondary:hover \{\
-  background: #e0e0e0;\
-\}\
-\
-/* Bottom Navigation */\
-.bottom-nav \{\
-  position: fixed;\
-  bottom: 0;\
-  left: 0;\
-  right: 0;\
-  max-width: 428px;\
-  margin: 0 auto;\
-  background: white;\
-  border-top: 1px solid #eee;\
-  display: flex;\
-  justify-content: space-around;\
-  padding: 8px 0;\
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);\
-\}\
-\
-.nav-item \{\
-  display: flex;\
-  flex-direction: column;\
-  align-items: center;\
-  text-decoration: none;\
-  color: #999;\
-  font-size: 11px;\
-  gap: 2px;\
-  padding: 4px 16px;\
-  transition: color 0.2s;\
-\}\
-\
-.nav-item span:first-child \{\
-  font-size: 22px;\
-\}\
-\
-.nav-item.active \{\
-  color: #6C63FF;\
-\}\
-\
-/* Hist\'f3rico */\
-.historico-list \{\
-  padding: 0 20px 20px;\
-\}\
-\
-.ride-item \{\
-  background: white;\
-  padding: 16px;\
-  border-radius: 12px;\
-  margin-bottom: 10px;\
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);\
-  display: flex;\
-  justify-content: space-between;\
-  align-items: center;\
-\}\
-\
-.ride-info \{\
-  display: flex;\
-  flex-direction: column;\
-  gap: 4px;\
-\}\
-\
-.ride-km \{\
-  font-weight: 600;\
-  font-size: 16px;\
-\}\
-\
-.ride-value \{\
-  font-weight: 600;\
-  color: #6C63FF;\
-\}\
-\
-.ride-profit \{\
-  font-size: 14px;\
-  font-weight: 600;\
-\}\
-\
-.ride-profit.negative \{\
-  color: #e74c3c;\
-\}\
-\
-.ride-profit.positive \{\
-  color: #2ecc71;\
-\}\
-\
-.day-summary \{\
-  background: white;\
-  margin: 16px 20px;\
-  padding: 16px;\
-  border-radius: 16px;\
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);\
-\}\
-\
-.day-date \{\
-  font-size: 18px;\
-  font-weight: 600;\
-\}\
-\
-.day-rides \{\
-  color: #666;\
-  font-size: 14px;\
-  margin: 4px 0;\
-\}\
-\
-.day-profit \{\
-  font-weight: 600;\
-  font-size: 16px;\
-  margin-top: 4px;\
-\}\
-\
-.day-profit.negative \{\
-  color: #e74c3c;\
-\}style}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+
+.app-container {
+  max-width: 428px;
+  margin: 0 auto;
+  background: white;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+.header {
+  background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+  color: white;
+  padding: 20px 20px 30px;
+  border-radius: 0 0 30px 30px;
+}
+
+.header-time {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 5px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-icon {
+  font-size: 28px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-left: auto;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 20px;
+  margin-top: -20px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.card-label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.card-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e94560;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.empty-state p {
+  margin: 4px 0;
+}
+
+.form-container {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+  background: #fafafa;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #e94560;
+  background: white;
+}
+
+.input-with-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-with-label input {
+  flex: 1;
+}
+
+.input-suffix {
+  font-size: 14px;
+  color: #888;
+  white-space: nowrap;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 24px 0 16px;
+  color: #333;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #e94560, #c23152);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #c23152, #a01e3e);
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-width: 428px;
+  margin: 0 auto;
+  background: white;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #999;
+  font-size: 11px;
+  gap: 2px;
+  padding: 4px 16px;
+  transition: color 0.2s;
+}
+
+.nav-item span:first-child {
+  font-size: 22px;
+}
+
+.nav-item.active {
+  color: #e94560;
+}
+
+.historico-list {
+  padding: 0 20px 20px;
+}
+
+.ride-item {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ride-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ride-km {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.ride-value {
+  font-weight: 600;
+  color: #e94560;
+}
+
+.ride-profit {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ride-profit.negative {
+  color: #e74c3c;
+}
+
+.ride-profit.positive {
+  color: #2ecc71;
+}
+
+.day-summary {
+  background: white;
+  margin: 16px 20px;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.day-date {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.day-rides {
+  color: #666;
+  font-size: 14px;
+  margin: 4px 0;
+}
+
+.day-profit {
+  font-weight: 600;
+  font-size: 16px;
+  margin-top: 4px;
+}
+
+.day-profit.negative {
+  color: #e74c3c;
+}
+
+.day-profit.positive {
+  color: #2ecc71;
+}
+
+.recent-rides {
+  padding: 0 20px 20px;
+}
+
+.recent-rides h2 {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 12px;
+}
