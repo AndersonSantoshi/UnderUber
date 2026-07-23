@@ -437,7 +437,6 @@ function generatePDF() {
   html += 'Dados salvos em ' + new Date().toLocaleString('pt-BR');
   html += '</div>';
   
-  // BOTÃO VOLTAR (aparece na tela, não no PDF)
   html += '<button onclick="window.close()" class="btn-voltar no-print">🔙 Voltar para o Dashboard</button>';
   
   html += '</div>';
@@ -479,9 +478,19 @@ function updateClock() {
   }
 }
 
+// ===== FUNÇÃO PARA RECARREGAR DADOS =====
+function recarregarDados() {
+  var path = window.location.pathname;
+  if (path.includes('index.html') || path === '/' || path === '') {
+    updateDashboard();
+  }
+  if (path.includes('historico')) {
+    updateHistorico();
+  }
+}
+
 // ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
-  // CARREGAR DADOS IMEDIATAMENTE
   updateClock();
   setInterval(updateClock, 30000);
   setInterval(checkDayChange, 60000);
@@ -508,30 +517,28 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ===== FORÇAR CARREGAMENTO QUANDO O APP VOLTAR =====
-// Isso resolve o problema de fechar e abrir o app no iPhone
-window.addEventListener('pageshow', function(event) {
-  // Se a página veio do cache (quando volta ao app)
-  if (event.persisted) {
-    var path = window.location.pathname;
-    if (path.includes('index.html') || path === '/' || path === '') {
-      updateDashboard();
-    }
-    if (path.includes('historico')) {
-      updateHistorico();
-    }
+// ===== SOLUÇÃO PARA O PROBLEMA DO IPHONE =====
+// Quando o app volta para primeiro plano, recarrega os dados
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden) {
+    recarregarDados();
   }
 });
 
-// ===== TAMBÉM CARREGAR QUANDO A TELA GANHAR FOCO =====
-document.addEventListener('visibilitychange', function() {
-  if (!document.hidden) {
-    var path = window.location.pathname;
-    if (path.includes('index.html') || path === '/' || path === '') {
-      updateDashboard();
-    }
-    if (path.includes('historico')) {
-      updateHistorico();
-    }
+// Quando a página é carregada do cache (volta ao app)
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    recarregarDados();
   }
 });
+
+// Quando a página ganha foco
+window.addEventListener('focus', function() {
+  recarregarDados();
+});
+
+// ===== FORÇAR RECARREGAMENTO A CADA 2 SEGUNDOS =====
+// Isso garante que os dados sempre apareçam
+setInterval(function() {
+  recarregarDados();
+}, 2000);
