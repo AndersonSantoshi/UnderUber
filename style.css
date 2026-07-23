@@ -35,21 +35,23 @@ body {
   margin-bottom: 6px;
   font-weight: 300;
   color: #AAAAAA;
+  text-align: center;
 }
 
 /* ===== HEADER BRAND ===== */
 .header-brand {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 6px;
   padding: 4px 0;
 }
 
 .brand-icon-img {
   display: block;
-  width: 56px;
-  height: 56px;
+  width: 80px;
+  height: 80px;
   border-radius: 0;
   background: transparent !important;
   border: none !important;
@@ -57,13 +59,16 @@ body {
   box-shadow: none !important;
   padding: 0 !important;
   object-fit: contain;
+  image-rendering: auto;
 }
 
 .header-brand .header-subtitle {
-  font-size: 14px;
-  opacity: 0.6;
-  font-weight: 300;
-  color: #AAAAAA;
+  font-size: 18px;
+  font-weight: 600;
+  color: #FFD700;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* ===== SELETOR DE DATA ===== */
@@ -599,5 +604,14 @@ input::placeholder {
   
   .date-display {
     font-size: 13px;
+  }
+  
+  .brand-icon-img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .header-brand .header-subtitle {
+    font-size: 16px;
   }
 }
