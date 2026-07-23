@@ -16,16 +16,15 @@ body {
   margin: 0 auto;
   background: #0A0A0A;
   min-height: 100vh;
-  padding-bottom: 80px;
+  padding-bottom: 70px;
   position: relative;
 }
 
-/* ===== HEADER - FIXO COM PARALLAX ===== */
+/* ===== HEADER - FUNDO PRETO PURO ===== */
 .header {
   background: #0A0A0A;
-  color: white;
   padding: 16px 24px 20px;
-  border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+  border-bottom: none;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -34,7 +33,7 @@ body {
   margin: 0 auto;
 }
 
-/* ===== HEADER BRAND ===== */
+/* ===== HEADER BRAND - SEM TÍTULO ===== */
 .header-brand {
   display: flex;
   flex-direction: column;
@@ -42,29 +41,20 @@ body {
   justify-content: center;
   gap: 2px;
   padding: 0;
-  background: transparent;
-}
-
-.header-brand .header-subtitle {
-  font-size: 18px;
-  font-weight: 700;
-  color: #FF8C00;
-  text-align: center;
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  background: #0A0A0A;
 }
 
 .brand-icon-img {
   display: block;
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   border-radius: 0;
-  background: transparent !important;
+  background: #0A0A0A !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  margin: 4px 0;
+  margin: 0;
   object-fit: contain;
 }
 
@@ -74,7 +64,7 @@ body {
   color: #FFFFFF;
   text-align: center;
   margin-top: 2px;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 /* ===== CONTEÚDO PRINCIPAL ===== */
@@ -83,6 +73,7 @@ body {
   z-index: 1;
   background: #0A0A0A;
   padding-top: 4px;
+  padding-bottom: 20px;
 }
 
 /* ===== SELETOR DE DATA ===== */
@@ -358,7 +349,7 @@ input::placeholder {
   background: #3A3A3A;
 }
 
-/* ===== NAVEGAÇÃO INFERIOR ===== */
+/* ===== NAVEGAÇÃO INFERIOR - FIXA ===== */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -367,11 +358,12 @@ input::placeholder {
   max-width: 428px;
   margin: 0 auto;
   background: #0A0A0A;
-  border-top: 1px solid #2A2A2A;
+  border-top: 1px solid #1A1A1A;
   display: flex;
   justify-content: space-around;
   padding: 10px 0 14px;
-  box-shadow: 0 -2px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 -2px 20px rgba(0,0,0,0.8);
+  z-index: 200;
 }
 
 .nav-item {
@@ -623,11 +615,7 @@ input::placeholder {
   }
   
   .brand-icon-img {
-    width: 120px;
-    height: 120px;
-  }
-  
-  .header-brand .header-subtitle {
-    font-size: 16px;
+    width: 140px;
+    height: 140px;
   }
 }
