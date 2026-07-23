@@ -29,7 +29,7 @@ body {
   border-bottom: 2px solid rgba(255, 140, 0, 0.15);
 }
 
-/* ===== HEADER BRAND - TÍTULO ACIMA, LOGO CENTRO, HORA ABAIXO ===== */
+/* ===== HEADER BRAND ===== */
 .header-brand {
   display: flex;
   flex-direction: column;
@@ -50,8 +50,8 @@ body {
 
 .brand-icon-img {
   display: block;
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   border-radius: 0;
   background: transparent !important;
   border: none !important;
@@ -60,25 +60,6 @@ body {
   padding: 0 !important;
   margin: 4px 0;
   object-fit: contain;
-  image-rendering: auto;
-  mix-blend-mode: normal;
-  filter: drop-shadow(0 0 0 transparent);
-}
-
-/* Remove qualquer fundo que venha da imagem */
-.brand-icon-img[src*="icon-512"] {
-  background: transparent !important;
-}
-
-/* Para SVG especificamente */
-svg.brand-icon-img {
-  display: block;
-  background: transparent !important;
-}
-
-/* Forçar remoção de qualquer fundo */
-.header-brand svg {
-  background: transparent !important;
 }
 
 .header-time {
@@ -234,9 +215,16 @@ svg.brand-icon-img {
   color: #888;
 }
 
-/* ===== RECENT RIDES - SEM TÍTULO ===== */
+/* ===== RECENT RIDES ===== */
 .recent-rides {
   padding: 0 20px 20px;
+}
+
+.recent-rides h2 {
+  font-size: 16px;
+  color: #FF8C00;
+  margin-bottom: 14px;
+  font-weight: 600;
 }
 
 /* ===== FORMULÁRIO ===== */
@@ -587,21 +575,6 @@ input::placeholder {
   border-radius: 10px;
 }
 
-/* ===== GARANTIR QUE A LOGO NÃO TENHA BORDA ===== */
-.brand-icon-img {
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  margin: 4px 0 !important;
-}
-
-.header-brand svg {
-  background: transparent !important;
-}
-
 /* ===== RESPONSIVO ===== */
 @media (max-width: 480px) {
   .modal-content {
@@ -635,8 +608,8 @@ input::placeholder {
   }
   
   .brand-icon-img {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
   }
   
   .header-brand .header-subtitle {
