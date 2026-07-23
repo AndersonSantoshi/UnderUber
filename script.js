@@ -1,5 +1,6 @@
 // ===== BANCO DE DADOS =====
 const STORAGE_KEY = 'underUberRides';
+const PARAMS_KEY = 'underUberParams';
 
 function getRides() {
   const data = localStorage.getItem(STORAGE_KEY);
@@ -24,6 +25,35 @@ function getToday() {
   return new Date().toISOString().split('T')[0];
 }
 
+// ===== FUNÇÕES DE CONVERSÃO (VÍRGULA PARA PONTO) =====
+function converterVirgulaParaPonto(valor) {
+  if (!valor) return '';
+  return valor.replace(',', '.');
+}
+
+function converterPontoParaVirgula(valor) {
+  if (!valor) return '';
+  return valor.replace('.', ',');
+}
+
+function formatarValor(valor) {
+  return valor.toFixed(2).replace('.', ',');
+}
+
+// ===== PARÂMETROS PADRÃO =====
+function getDefaultParams() {
+  const data = localStorage.getItem(PARAMS_KEY);
+  return data ? JSON.parse(data) : {
+    precoCombustivel: '',
+    kmPorLitro: '',
+    aluguelDiario: ''
+  };
+}
+
+function saveDefaultParams(params) {
+  localStorage.setItem(PARAMS_KEY, JSON.stringify(params));
+}
+
 // ===== FUNÇÕES: EDITAR E EXCLUIR =====
 function deleteRide(id) {
   if (!confirm('Tem certeza que deseja excluir esta viagem?')) return;
@@ -42,11 +72,11 @@ function editRide(id) {
   
   document.getElementById('editId').value = ride.id;
   document.getElementById('editData').value = ride.date;
-  document.getElementById('editKmRodados').value = ride.kmRodados.toFixed(2);
-  document.getElementById('editValorBruto').value = ride.valorBruto.toFixed(2);
-  document.getElementById('editPrecoCombustivel').value = ride.precoCombustivel.toFixed(2);
-  document.getElementById('editKmPorLitro').value = ride.kmPorLitro.toFixed(1);
-  document.getElementById('editAluguelDiario').value = ride.aluguelDiario.toFixed(2);
+  document.getElementById('editKmRodados').value = converterPontoParaVirgula(ride.kmRodados.toFixed(2));
+  document.getElementById('editValorBruto').value = converterPontoParaVirgula(ride.valorBruto.toFixed(2));
+  document.getElementById('editPrecoCombustivel').value = converterPontoParaVirgula(ride.precoCombustivel.toFixed(2));
+  document.getElementById('editKmPorLitro').value = converterPontoParaVirgula(ride.kmPorLitro.toFixed(1));
+  document.getElementById('editAluguelDiario').value = converterPontoParaVirgula(ride.aluguelDiario.toFixed(2));
   
   document.getElementById('editModal').style.display = 'flex';
 }
@@ -58,14 +88,20 @@ function saveEditRide() {
   
   if (index === -1) return;
   
+  var kmRodados = converterVirgulaParaPonto(document.getElementById('editKmRodados').value);
+  var valorBruto = converterVirgulaParaPonto(document.getElementById('editValorBruto').value);
+  var precoCombustivel = converterVirgulaParaPonto(document.getElementById('editPrecoCombustivel').value);
+  var kmPorLitro = converterVirgulaParaPonto(document.getElementById('editKmPorLitro').value);
+  var aluguelDiario = converterVirgulaParaPonto(document.getElementById('editAluguelDiario').value);
+  
   rides[index] = {
     ...rides[index],
     date: document.getElementById('editData').value,
-    kmRodados: parseFloat(document.getElementById('editKmRodados').value),
-    valorBruto: parseFloat(document.getElementById('editValorBruto').value),
-    precoCombustivel: parseFloat(document.getElementById('editPrecoCombustivel').value),
-    kmPorLitro: parseFloat(document.getElementById('editKmPorLitro').value),
-    aluguelDiario: parseFloat(document.getElementById('editAluguelDiario').value) || 0
+    kmRodados: parseFloat(kmRodados),
+    valorBruto: parseFloat(valorBruto),
+    precoCombustivel: parseFloat(precoCombustivel),
+    kmPorLitro: parseFloat(kmPorLitro),
+    aluguelDiario: parseFloat(aluguelDiario) || 0
   };
   
   saveRides(rides);
@@ -124,7 +160,7 @@ function updateDashboard() {
     document.getElementById('lucroLiquido').textContent = 'R$ 0,00';
     document.getElementById('ganhoPorKm').textContent = 'R$ 0,00';
     document.getElementById('totalCorridas').textContent = '0';
-    document.getElementById('margemMedia').textContent = '0.0%';
+    document.getElementById('margemMedia').textContent = '0,0%';
     document.getElementById('emptyState').style.display = 'block';
     document.getElementById('recentRides').style.display = 'none';
     
@@ -158,10 +194,10 @@ function updateDashboard() {
   var mediaMargem = dayRides.length > 0 ? totalMargem / dayRides.length : 0;
   var ganhoPorKm = somaKm > 0 ? somaBruto / somaKm : 0;
   
-  document.getElementById('lucroLiquido').textContent = 'R$ ' + lucroDia.toFixed(2);
-  document.getElementById('ganhoPorKm').textContent = 'R$ ' + ganhoPorKm.toFixed(2);
+  document.getElementById('lucroLiquido').textContent = 'R$ ' + formatarValor(lucroDia);
+  document.getElementById('ganhoPorKm').textContent = 'R$ ' + formatarValor(ganhoPorKm);
   document.getElementById('totalCorridas').textContent = dayRides.length;
-  document.getElementById('margemMedia').textContent = mediaMargem.toFixed(1) + '%';
+  document.getElementById('margemMedia').textContent = mediaMargem.toFixed(1).replace('.', ',') + '%';
   
   var list = document.getElementById('ridesList');
   list.innerHTML = '';
@@ -171,12 +207,12 @@ function updateDashboard() {
     div.className = 'ride-item';
     div.innerHTML =
       '<div class="ride-info">' +
-        '<span class="ride-km">' + ride.kmRodados.toFixed(2) + ' km</span>' +
+        '<span class="ride-km">' + ride.kmRodados.toFixed(2).replace('.', ',') + ' km</span>' +
         '<span style="font-size:12px;color:#999;">' + ride.date + '</span>' +
       '</div>' +
-      '<div class="ride-value">R$ ' + ride.valorBruto.toFixed(2) + '</div>' +
+      '<div class="ride-value">R$ ' + ride.valorBruto.toFixed(2).replace('.', ',') + '</div>' +
       '<div class="ride-profit ' + (result.lucroViagem >= 0 ? 'positive' : 'negative') + '">' +
-        (result.lucroViagem >= 0 ? '+' : '') + 'R$ ' + result.lucroViagem.toFixed(2) +
+        (result.lucroViagem >= 0 ? '+' : '') + 'R$ ' + result.lucroViagem.toFixed(2).replace('.', ',') +
       '</div>';
     list.appendChild(div);
   });
@@ -244,7 +280,7 @@ function updateHistorico() {
     summary.querySelector('.day-date').textContent = formatDate(historicoSelectedDate);
     summary.querySelector('.day-rides').textContent = dayRides.length + ' corrida' + (dayRides.length > 1 ? 's' : '');
     var profitEl2 = summary.querySelector('.day-profit');
-    profitEl2.textContent = 'Lucro do dia R$ ' + lucroDia.toFixed(2);
+    profitEl2.textContent = 'Lucro do dia R$ ' + formatarValor(lucroDia);
     profitEl2.className = 'day-profit ' + (lucroDia >= 0 ? 'positive' : 'negative');
   }
   
@@ -255,13 +291,13 @@ function updateHistorico() {
     div.className = 'ride-item';
     div.innerHTML =
       '<div style="flex:1;">' +
-        '<div class="ride-km">' + ride.kmRodados.toFixed(2) + ' km</div>' +
+        '<div class="ride-km">' + ride.kmRodados.toFixed(2).replace('.', ',') + ' km</div>' +
         '<div style="font-size:12px;color:#999;">' + ride.date + '</div>' +
       '</div>' +
       '<div style="text-align:right; margin-right:10px;">' +
-        '<div class="ride-value">R$ ' + ride.valorBruto.toFixed(2) + '</div>' +
+        '<div class="ride-value">R$ ' + ride.valorBruto.toFixed(2).replace('.', ',') + '</div>' +
         '<div class="ride-profit ' + (result.lucroViagem >= 0 ? 'positive' : 'negative') + '">' +
-          (result.lucroViagem >= 0 ? '+' : '') + 'R$ ' + result.lucroViagem.toFixed(2) +
+          (result.lucroViagem >= 0 ? '+' : '') + 'R$ ' + result.lucroViagem.toFixed(2).replace('.', ',') +
         '</div>' +
       '</div>' +
       '<div style="display:flex; flex-direction:column; gap:4px;">' +
@@ -303,11 +339,30 @@ function setupNewRideForm() {
   var form = document.getElementById('rideForm');
   if (!form) return;
   
+  // Carregar data atual
   var dataField = document.getElementById('data');
   if (dataField) {
     dataField.value = getToday();
   }
   
+  // Carregar parâmetros salvos
+  var params = getDefaultParams();
+  
+  var precoField = document.getElementById('precoCombustivel');
+  var kmLitroField = document.getElementById('kmPorLitro');
+  var aluguelField = document.getElementById('aluguelDiario');
+  
+  if (precoField && params.precoCombustivel) {
+    precoField.value = converterPontoParaVirgula(params.precoCombustivel);
+  }
+  if (kmLitroField && params.kmPorLitro) {
+    kmLitroField.value = converterPontoParaVirgula(params.kmPorLitro);
+  }
+  if (aluguelField && params.aluguelDiario) {
+    aluguelField.value = converterPontoParaVirgula(params.aluguelDiario);
+  }
+  
+  // Remover event listener anterior
   form.removeEventListener('submit', handleFormSubmit);
   form.addEventListener('submit', handleFormSubmit);
 }
@@ -315,19 +370,50 @@ function setupNewRideForm() {
 function handleFormSubmit(e) {
   e.preventDefault();
   
-  var ride = {
-    date: document.getElementById('data').value,
-    kmRodados: parseFloat(document.getElementById('kmRodados').value),
-    valorBruto: parseFloat(document.getElementById('valorBruto').value),
-    precoCombustivel: parseFloat(document.getElementById('precoCombustivel').value),
-    kmPorLitro: parseFloat(document.getElementById('kmPorLitro').value),
-    aluguelDiario: parseFloat(document.getElementById('aluguelDiario').value) || 0
-  };
+  // Pegar valores e converter vírgula para ponto
+  var kmRodados = document.getElementById('kmRodados').value;
+  var valorBruto = document.getElementById('valorBruto').value;
+  var precoCombustivel = document.getElementById('precoCombustivel').value;
+  var kmPorLitro = document.getElementById('kmPorLitro').value;
+  var aluguelDiario = document.getElementById('aluguelDiario').value;
   
-  if (!ride.kmRodados || !ride.valorBruto || !ride.precoCombustivel || !ride.kmPorLitro) {
+  // Converter vírgula para ponto
+  kmRodados = converterVirgulaParaPonto(kmRodados);
+  valorBruto = converterVirgulaParaPonto(valorBruto);
+  precoCombustivel = converterVirgulaParaPonto(precoCombustivel);
+  kmPorLitro = converterVirgulaParaPonto(kmPorLitro);
+  aluguelDiario = converterVirgulaParaPonto(aluguelDiario);
+  
+  // Converter para números
+  var kmRodadosNum = parseFloat(kmRodados);
+  var valorBrutoNum = parseFloat(valorBruto);
+  var precoCombustivelNum = parseFloat(precoCombustivel);
+  var kmPorLitroNum = parseFloat(kmPorLitro);
+  var aluguelDiarioNum = parseFloat(aluguelDiario) || 0;
+  
+  // Validar campos obrigatórios
+  if (!kmRodadosNum || !valorBrutoNum || !precoCombustivelNum || !kmPorLitroNum) {
     alert('Preencha todos os campos obrigatórios.');
     return;
   }
+  
+  // Salvar parâmetros para próximas corridas
+  var params = {
+    precoCombustivel: precoCombustivel,
+    kmPorLitro: kmPorLitro,
+    aluguelDiario: aluguelDiario
+  };
+  saveDefaultParams(params);
+  
+  // Criar objeto da corrida
+  var ride = {
+    date: document.getElementById('data').value,
+    kmRodados: kmRodadosNum,
+    valorBruto: valorBrutoNum,
+    precoCombustivel: precoCombustivelNum,
+    kmPorLitro: kmPorLitroNum,
+    aluguelDiario: aluguelDiarioNum
+  };
   
   if (!ride.date) {
     ride.date = getToday();
@@ -336,13 +422,15 @@ function handleFormSubmit(e) {
   addRide(ride);
   alert('Corrida salva com sucesso!');
   
-  document.getElementById('rideForm').reset();
+  // Limpar campos de entrada (exceto parâmetros)
+  document.getElementById('kmRodados').value = '';
+  document.getElementById('valorBruto').value = '';
   document.getElementById('data').value = getToday();
   
   updateDashboard();
 }
 
-// ===== GERAR PDF COM BOTÃO VOLTAR =====
+// ===== GERAR PDF =====
 function generatePDF() {
   var rides = getRides();
   if (rides.length === 0) {
@@ -407,10 +495,10 @@ function generatePDF() {
   html += '<div class="resumo">';
   html += '<h3>📊 RESUMO DO PERÍODO</h3>';
   html += '<p>📍 Total de Corridas: <span class="value">' + rides.length + '</span></p>';
-  html += '<p>📏 Total KM Rodados: <span class="value">' + totalKm.toFixed(2) + ' km</span></p>';
-  html += '<p>💰 Valor Bruto Total: <span class="value">R$ ' + totalBruto.toFixed(2) + '</span></p>';
-  html += '<p>⛽ Total Combustível: <span class="value">R$ ' + totalCombustivel.toFixed(2) + '</span></p>';
-  html += '<p>💵 Lucro Total: <span class="value positive">R$ ' + totalLucro.toFixed(2) + '</span></p>';
+  html += '<p>📏 Total KM Rodados: <span class="value">' + totalKm.toFixed(2).replace('.', ',') + ' km</span></p>';
+  html += '<p>💰 Valor Bruto Total: <span class="value">R$ ' + totalBruto.toFixed(2).replace('.', ',') + '</span></p>';
+  html += '<p>⛽ Total Combustível: <span class="value">R$ ' + totalCombustivel.toFixed(2).replace('.', ',') + '</span></p>';
+  html += '<p>💵 Lucro Total: <span class="value positive">R$ ' + totalLucro.toFixed(2).replace('.', ',') + '</span></p>';
   html += '</div>';
   
   html += '<h3 style="margin-top:25px;">📋 DETALHES DAS CORRIDAS</h3>';
@@ -423,10 +511,10 @@ function generatePDF() {
     html += '<tr>';
     html += '<td>' + (index + 1) + '</td>';
     html += '<td>' + formatDate(ride.date) + '</td>';
-    html += '<td>' + ride.kmRodados.toFixed(2) + '</td>';
-    html += '<td>R$ ' + ride.valorBruto.toFixed(2) + '</td>';
-    html += '<td>R$ ' + result.custoCombustivel.toFixed(2) + '</td>';
-    html += '<td class="' + profitClass + '">R$ ' + result.lucroViagem.toFixed(2) + '</td>';
+    html += '<td>' + ride.kmRodados.toFixed(2).replace('.', ',') + '</td>';
+    html += '<td>R$ ' + ride.valorBruto.toFixed(2).replace('.', ',') + '</td>';
+    html += '<td>R$ ' + result.custoCombustivel.toFixed(2).replace('.', ',') + '</td>';
+    html += '<td class="' + profitClass + '">R$ ' + result.lucroViagem.toFixed(2).replace('.', ',') + '</td>';
     html += '</tr>';
   });
   
@@ -517,28 +605,23 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// ===== SOLUÇÃO PARA O PROBLEMA DO IPHONE =====
-// Quando o app volta para primeiro plano, recarrega os dados
+// ===== RECARREGAR QUANDO VOLTAR AO APP =====
 document.addEventListener('visibilitychange', function() {
   if (!document.hidden) {
     recarregarDados();
   }
 });
 
-// Quando a página é carregada do cache (volta ao app)
 window.addEventListener('pageshow', function(event) {
   if (event.persisted) {
     recarregarDados();
   }
 });
 
-// Quando a página ganha foco
 window.addEventListener('focus', function() {
   recarregarDados();
 });
 
-// ===== FORÇAR RECARREGAMENTO A CADA 2 SEGUNDOS =====
-// Isso garante que os dados sempre apareçam
 setInterval(function() {
   recarregarDados();
 }, 2000);
