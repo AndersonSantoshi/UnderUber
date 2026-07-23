@@ -18,6 +18,64 @@ function addRide(ride) {
   return ride;
 }
 
+// ===== NOVAS FUNÇÕES: EDITAR E EXCLUIR =====
+
+function deleteRide(id) {
+  if (!confirm('Tem certeza que deseja excluir esta viagem?')) return;
+  let rides = getRides();
+  rides = rides.filter(r => r.id !== id);
+  saveRides(rides);
+  updateHistorico();
+  updateDashboard();
+  alert('Viagem excluída com sucesso!');
+}
+
+function editRide(id) {
+  const rides = getRides();
+  const ride = rides.find(r => r.id === id);
+  if (!ride) return;
+  
+  // Preencher o formulário com os dados da viagem
+  document.getElementById('editId').value = ride.id;
+  document.getElementById('editData').value = ride.date;
+  document.getElementById('editKmRodados').value = ride.kmRodados;
+  document.getElementById('editValorBruto').value = ride.valorBruto;
+  document.getElementById('editPrecoCombustivel').value = ride.precoCombustivel;
+  document.getElementById('editKmPorLitro').value = ride.kmPorLitro;
+  document.getElementById('editAluguelDiario').value = ride.aluguelDiario || 0;
+  
+  // Mostrar o modal de edição
+  document.getElementById('editModal').style.display = 'flex';
+}
+
+function saveEditRide() {
+  const id = parseInt(document.getElementById('editId').value);
+  const rides = getRides();
+  const index = rides.findIndex(r => r.id === id);
+  
+  if (index === -1) return;
+  
+  rides[index] = {
+    ...rides[index],
+    date: document.getElementById('editData').value,
+    kmRodados: parseFloat(document.getElementById('editKmRodados').value),
+    valorBruto: parseFloat(document.getElementById('editValorBruto').value),
+    precoCombustivel: parseFloat(document.getElementById('editPrecoCombustivel').value),
+    kmPorLitro: parseFloat(document.getElementById('editKmPorLitro').value),
+    aluguelDiario: parseFloat(document.getElementById('editAluguelDiario').value) || 0
+  };
+  
+  saveRides(rides);
+  closeEditModal();
+  updateHistorico();
+  updateDashboard();
+  alert('Viagem atualizada com sucesso!');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').style.display = 'none';
+}
+
 // ===== CALCULO POR VIAGEM (SÓ COMBUSTÍVEL) =====
 function calculateRideProfit(ride) {
   const { kmRodados, valorBruto, precoCombustivel, kmPorLitro } = ride;
@@ -119,7 +177,7 @@ function updateDashboard() {
   });
 }
 
-// ===== HISTÓRICO =====
+// ===== HISTÓRICO COM BOTÕES EDITAR/EXCLUIR =====
 function updateHistorico() {
   const rides = getRides();
   const container = document.getElementById('historicoList');
@@ -151,7 +209,7 @@ function updateHistorico() {
   todayRides.forEach(ride => {
     const result = calculateRideProfit(ride);
     somaViagens += result.lucroViagem;
-    aluguelDia = ride.aluguelDiario || 0; // pega o aluguel da primeira viagem
+    aluguelDia = ride.aluguelDiario || 0;
   });
   
   const lucroDia = somaViagens - aluguelDia;
@@ -169,20 +227,26 @@ function updateHistorico() {
     profitEl.className = `day-profit ${lucroDia >= 0 ? 'positive' : 'negative'}`;
   }
   
-  // Listar todas as viagens (com lucro por viagem, sem aluguel)
+  // Listar todas as viagens com botões
   container.innerHTML = '';
   rides.forEach(ride => {
     const result = calculateRideProfit(ride);
     const div = document.createElement('div');
     div.className = 'ride-item';
     div.innerHTML = `
-      <div>
+      <div style="flex:1;">
         <div class="ride-km">${ride.kmRodados} km</div>
         <div style="font-size:12px;color:#999;">${ride.date}</div>
       </div>
-      <div class="ride-value">R$ ${ride.valorBruto.toFixed(2)}</div>
-      <div class="ride-profit ${result.lucroViagem >= 0 ? 'positive' : 'negative'}">
-        ${result.lucroViagem >= 0 ? '+' : ''}R$ ${result.lucroViagem.toFixed(2)}
+      <div style="text-align:right; margin-right:10px;">
+        <div class="ride-value">R$ ${ride.valorBruto.toFixed(2)}</div>
+        <div class="ride-profit ${result.lucroViagem >= 0 ? 'positive' : 'negative'}">
+          ${result.lucroViagem >= 0 ? '+' : ''}R$ ${result.lucroViagem.toFixed(2)}
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <button onclick="editRide(${ride.id})" class="btn-edit">✏️</button>
+        <button onclick="deleteRide(${ride.id})" class="btn-delete">🗑️</button>
       </div>
     `;
     container.appendChild(div);
@@ -214,6 +278,7 @@ function setupNewRideForm() {
     addRide(ride);
     alert('Corrida salva com sucesso!');
     form.reset();
+    updateDashboard();
   });
 }
 
@@ -247,4 +312,9 @@ document.addEventListener('DOMContentLoaded', function() {
   if (path.includes('historico')) {
     updateHistorico();
   }
+  
+  // Fechar modal ao clicar fora
+  document.getElementById('editModal')?.addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
+  });
 });
