@@ -61,6 +61,24 @@ body {
   margin: 4px 0;
   object-fit: contain;
   image-rendering: auto;
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 0 0 transparent);
+}
+
+/* Remove qualquer fundo que venha da imagem */
+.brand-icon-img[src*="icon-512"] {
+  background: transparent !important;
+}
+
+/* Para SVG especificamente */
+svg.brand-icon-img {
+  display: block;
+  background: transparent !important;
+}
+
+/* Forçar remoção de qualquer fundo */
+.header-brand svg {
+  background: transparent !important;
 }
 
 .header-time {
@@ -567,6 +585,21 @@ input::placeholder {
 ::-webkit-scrollbar-thumb {
   background: #FF8C00;
   border-radius: 10px;
+}
+
+/* ===== GARANTIR QUE A LOGO NÃO TENHA BORDA ===== */
+.brand-icon-img {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 4px 0 !important;
+}
+
+.header-brand svg {
+  background: transparent !important;
 }
 
 /* ===== RESPONSIVO ===== */
