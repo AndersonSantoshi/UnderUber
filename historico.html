@@ -20,22 +20,24 @@
       </div>
     </header>
 
-    <!-- SELETOR DE DATA DO HISTÓRICO -->
-    <div class="date-selector">
-      <button onclick="changeHistoricoDate(-1)" class="date-btn">◀</button>
-      <span id="historicoDate" class="date-display">Hoje</span>
-      <button onclick="changeHistoricoDate(1)" class="date-btn">▶</button>
-      <button onclick="goToHistoricoToday()" class="date-today">Hoje</button>
-    </div>
-
-    <div id="historicoContent">
-      <div class="day-summary" id="daySummary">
-        <div class="day-date">Hoje</div>
-        <div class="day-rides">0 corrida</div>
-        <div class="day-profit" id="dayProfit">Lucro do dia R$ 0,00</div>
+    <div class="main-content">
+      <!-- SELETOR DE DATA DO HISTÓRICO -->
+      <div class="date-selector">
+        <button onclick="changeHistoricoDate(-1)" class="date-btn">◀</button>
+        <span id="historicoDate" class="date-display">Hoje</span>
+        <button onclick="changeHistoricoDate(1)" class="date-btn">▶</button>
+        <button onclick="goToHistoricoToday()" class="date-today">Hoje</button>
       </div>
 
-      <div id="historicoList" class="historico-list"></div>
+      <div id="historicoContent">
+        <div class="day-summary" id="daySummary">
+          <div class="day-date">Hoje</div>
+          <div class="day-rides">0 corrida</div>
+          <div class="day-profit" id="dayProfit">Lucro do dia R$ 0,00</div>
+        </div>
+
+        <div id="historicoList" class="historico-list"></div>
+      </div>
     </div>
 
     <nav class="bottom-nav">
