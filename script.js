@@ -20,12 +20,10 @@ function addRide(ride) {
   return ride;
 }
 
-// ===== DATA ATUAL =====
 function getToday() {
   return new Date().toISOString().split('T')[0];
 }
 
-// ===== FUNÇÕES DE CONVERSÃO (VÍRGULA PARA PONTO) =====
 function converterVirgulaParaPonto(valor) {
   if (!valor) return '';
   return valor.replace(',', '.');
@@ -40,7 +38,6 @@ function formatarValor(valor) {
   return valor.toFixed(2).replace('.', ',');
 }
 
-// ===== PARÂMETROS PADRÃO =====
 function getDefaultParams() {
   const data = localStorage.getItem(PARAMS_KEY);
   return data ? JSON.parse(data) : {
@@ -54,7 +51,6 @@ function saveDefaultParams(params) {
   localStorage.setItem(PARAMS_KEY, JSON.stringify(params));
 }
 
-// ===== FUNÇÕES: EDITAR E EXCLUIR =====
 function deleteRide(id) {
   if (!confirm('Tem certeza que deseja excluir esta viagem?')) return;
   let rides = getRides();
@@ -115,7 +111,6 @@ function closeEditModal() {
   document.getElementById('editModal').style.display = 'none';
 }
 
-// ===== CÁLCULO POR VIAGEM =====
 function calculateRideProfit(ride) {
   var kmRodados = ride.kmRodados;
   var valorBruto = ride.valorBruto;
@@ -133,14 +128,12 @@ function calculateRideProfit(ride) {
   };
 }
 
-// ===== FUNÇÃO FORMATAR DATA =====
 function formatDate(dateStr) {
   if (!dateStr) return 'Hoje';
   var parts = dateStr.split('-');
   return parts[2] + '/' + parts[1] + '/' + parts[0];
 }
 
-// ===== DASHBOARD =====
 var selectedDate = getToday();
 
 function updateDashboard() {
@@ -230,7 +223,6 @@ function goToToday() {
   updateDashboard();
 }
 
-// ===== HISTÓRICO =====
 var historicoSelectedDate = getToday();
 
 function updateHistorico() {
@@ -320,7 +312,6 @@ function goToHistoricoToday() {
   updateHistorico();
 }
 
-// ===== VERIFICAR MUDANÇA DE DIA =====
 var currentDay = getToday();
 
 function checkDayChange() {
@@ -334,7 +325,6 @@ function checkDayChange() {
   }
 }
 
-// ===== NOVA CORRIDA =====
 function setupNewRideForm() {
   var form = document.getElementById('rideForm');
   if (!form) return;
@@ -420,7 +410,6 @@ function handleFormSubmit(e) {
   updateDashboard();
 }
 
-// ===== GERAR PDF =====
 function generatePDF() {
   var rides = getRides();
   if (rides.length === 0) {
@@ -543,7 +532,6 @@ function generatePDF() {
   }, 800);
 }
 
-// ===== RELÓGIO =====
 function updateClock() {
   var agora = new Date();
   var horas = String(agora.getHours()).padStart(2, '0');
@@ -556,7 +544,6 @@ function updateClock() {
   }
 }
 
-// ===== FUNÇÃO PARA RECARREGAR DADOS =====
 function recarregarDados() {
   var path = window.location.pathname;
   if (path.includes('index.html') || path === '/' || path === '') {
@@ -567,7 +554,6 @@ function recarregarDados() {
   }
 }
 
-// ===== INICIALIZAÇÃO =====
 document.addEventListener('DOMContentLoaded', function() {
   updateClock();
   setInterval(updateClock, 30000);
