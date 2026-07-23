@@ -343,7 +343,8 @@ function generatePDF() {
   
   let html = '<html><head><meta charset="UTF-8">';
   html += '<style>';
-  html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; }';
+  html += 'body { font-family: "Helvetica", Arial, sans-serif; padding: 30px; background: #f5f5f5; }';
+  html += '.container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }';
   html += 'h1 { color: #1a1a2e; text-align: center; font-size: 24px; margin-bottom: 5px; }';
   html += '.subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 30px; }';
   html += '.header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #e94560; padding-bottom: 15px; }';
@@ -360,8 +361,15 @@ function generatePDF() {
   html += '.footer { text-align: center; color: #999; font-size: 12px; margin-top: 30px; border-top: 1px solid #eee; padding-top: 15px; }';
   html += '.positive { color: #2ecc71; }';
   html += '.negative { color: #e74c3c; }';
+  html += '.btn-voltar { display: block; width: 100%; padding: 14px; background: #e94560; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; text-align: center; text-decoration: none; }';
+  html += '.btn-voltar:hover { background: #c23152; }';
+  html += '.no-print { display: block; }';
+  html += '@media print { .no-print { display: none !important; } .container { box-shadow: none !important; } }';
   html += '</style></head><body>';
   
+  html += '<div class="container">';
+  
+  // Cabeçalho
   html += '<div class="header">';
   html += '<div class="icon">🚗</div>';
   html += '<h1>UnderUber</h1>';
@@ -369,6 +377,7 @@ function generatePDF() {
   html += '<small>Gerado em: ' + new Date().toLocaleString('pt-BR') + '</small>';
   html += '</div>';
   
+  // Resumo
   html += '<div class="resumo">';
   html += '<h3>📊 RESUMO DO PERÍODO</h3>';
   html += '<p>📍 Total de Corridas: <span class="value">' + rides.length + '</span></p>';
@@ -378,6 +387,7 @@ function generatePDF() {
   html += '<p>💵 Lucro Total: <span class="value positive">R$ ' + totalLucro.toFixed(2) + '</span></p>';
   html += '</div>';
   
+  // Tabela
   html += '<h3 style="margin-top:25px;">📋 DETALHES DAS CORRIDAS</h3>';
   html += '<table>';
   html += '<tr><th>#</th><th>Data</th><th>KM</th><th>Valor (R$)</th><th>Combustível (R$)</th><th>Lucro (R$)</th></tr>';
@@ -402,84 +412,20 @@ function generatePDF() {
   html += 'Dados salvos em ' + new Date().toLocaleString('pt-BR');
   html += '</div>';
   
+  // BOTÃO VOLTAR (só aparece na tela, não no PDF)
+  html += '<button onclick="window.close()" class="btn-voltar no-print">🔙 Voltar para o Dashboard</button>';
+  
+  html += '</div>';
   html += '</body></html>';
   
-  const win = window.open('', '_blank', 'width=800,height=600');
+  // Abrir em nova janela com botão voltar
+  const win = window.open('', '_blank', 'width=900,height=700');
   if (!win) {
     alert('⚠️ Por favor, permita pop-ups para gerar o PDF.');
     return;
   }
   win.document.write(html);
   win.document.close();
-  
-  setTimeout(function() {
-    win.print();
-  }, 500);
-}
-
-// ===== ENVIAR POR WHATSAPP =====
-function sendWhatsApp() {
-  const rides = getRides();
-  if (rides.length === 0) {
-    alert('📭 Nenhuma corrida registrada!');
-    return;
-  }
-  
-  let totalBruto = 0;
-  let totalLucro = 0;
-  let totalKm = 0;
-  
-  rides.forEach(function(ride) {
-    const result = calculateRideProfit(ride);
-    totalBruto += ride.valorBruto;
-    totalLucro += result.lucroViagem;
-    totalKm += ride.kmRodados;
-  });
-  
-  let msg = '🚗 *UNDERUBER - RELATÓRIO* 🚗\n';
-  msg += '📅 ' + new Date().toLocaleString('pt-BR') + '\n';
-  msg += '═'.repeat(35) + '\n\n';
-  
-  msg += '📊 *RESUMO*\n';
-  msg += '📍 Corridas: ' + rides.length + '\n';
-  msg += '📏 Total KM: ' + totalKm.toFixed(2) + ' km\n';
-  msg += '💰 Total Bruto: R$ ' + totalBruto.toFixed(2) + '\n';
-  msg += '💵 Lucro Total: R$ ' + totalLucro.toFixed(2) + '\n\n';
-  
-  msg += '═'.repeat(35) + '\n\n';
-  msg += '📋 *DETALHES*\n\n';
-  
-  rides.forEach(function(ride, index) {
-    const result = calculateRideProfit(ride);
-    const emoji = result.lucroViagem >= 0 ? '✅' : '❌';
-    msg += (index + 1) + '️⃣ ' + formatDate(ride.date) + '\n';
-    msg += '   📏 KM: ' + ride.kmRodados.toFixed(2) + '\n';
-    msg += '   💰 Valor: R$ ' + ride.valorBruto.toFixed(2) + '\n';
-    msg += '   ⛽ Combustível: R$ ' + result.custoCombustivel.toFixed(2) + '\n';
-    msg += '   ' + emoji + ' Lucro: R$ ' + result.lucroViagem.toFixed(2) + '\n';
-    msg += '   ─────────────────\n';
-  });
-  
-  msg += '\n📱 UnderUber - App para motoristas';
-  msg += '\n🔗 https://AndersonSantoshi.github.io/UnderUber/';
-  
-  const opcao = confirm('Enviar para você mesmo? \nClique em "OK" para enviar para você.\nClique em "Cancelar" para digitar outro número.');
-  
-  if (opcao) {
-    const url = 'https://wa.me/?text=' + encodeURIComponent(msg);
-    window.open(url, '_blank');
-  } else {
-    const numero = prompt('Digite o número do WhatsApp com DDD (ex: 11999999999):');
-    if (numero) {
-      const numLimpo = numero.replace(/\D/g, '');
-      if (numLimpo.length >= 10) {
-        const url = 'https://wa.me/55' + numLimpo + '?text=' + encodeURIComponent(msg);
-        window.open(url, '_blank');
-      } else {
-        alert('⚠️ Número inválido! Use com DDD (ex: 11999999999)');
-      }
-    }
-  }
 }
 
 // ===== COPIAR RELATÓRIO =====
