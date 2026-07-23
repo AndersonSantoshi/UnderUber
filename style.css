@@ -11,7 +11,7 @@ body {
   color: #FFFFFF;
 }
 
-/* ===== APP CONTAINER COM SAFE AREA ===== */
+/* ===== APP CONTAINER ===== */
 .app-container {
   max-width: 428px;
   margin: 0 auto;
@@ -105,7 +105,6 @@ body {
   border-radius: 8px;
   transition: all 0.2s;
 }
-
 .date-btn:hover {
   background: #2A2A2A;
 }
@@ -129,7 +128,6 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .date-today:hover {
   background: #E67E22;
   transform: scale(1.05);
@@ -158,13 +156,11 @@ body {
   justify-content: center;
   gap: 10px;
 }
-
 .btn-pdf:hover {
   background: linear-gradient(135deg, #E67E22, #D35400);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
 }
-
 .btn-pdf:active {
   transform: translateY(0);
 }
@@ -186,7 +182,6 @@ body {
   transition: transform 0.2s;
   border: 1px solid #2A2A2A;
 }
-
 .card:hover {
   transform: translateY(-2px);
   border-color: #FF8C00;
@@ -213,12 +208,10 @@ body {
   padding: 50px 20px;
   color: #666;
 }
-
 .empty-state p {
   margin: 6px 0;
   font-size: 15px;
 }
-
 .empty-state p:first-child {
   font-weight: 500;
   color: #888;
@@ -228,7 +221,6 @@ body {
 .recent-rides {
   padding: 0 20px 20px;
 }
-
 .recent-rides h2 {
   font-size: 16px;
   color: #FF8C00;
@@ -247,7 +239,6 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-
 #ridesList .ride-item:hover {
   border-color: #FF8C00;
 }
@@ -257,25 +248,17 @@ body {
   font-size: 16px;
   color: #FFFFFF;
 }
-
 .ride-value {
   font-weight: 600;
   color: #FF8C00;
   font-size: 15px;
 }
-
 .ride-profit {
   font-size: 14px;
   font-weight: 600;
 }
-
-.ride-profit.negative {
-  color: #FF4444;
-}
-
-.ride-profit.positive {
-  color: #4CAF50;
-}
+.ride-profit.negative { color: #FF4444; }
+.ride-profit.positive { color: #4CAF50; }
 
 /* ===== FORMULÁRIO ===== */
 .form-container {
@@ -298,6 +281,7 @@ body {
   margin-bottom: 5px;
 }
 
+/* ESTILO PADRÃO PARA TODOS OS INPUTS */
 .form-group input {
   width: 100%;
   padding: 12px 16px;
@@ -307,6 +291,9 @@ body {
   background: #0A0A0A;
   color: #FFFFFF;
   transition: all 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px; /* Altura fixa para todos os campos */
 }
 
 .form-group input:focus {
@@ -320,13 +307,63 @@ body {
   color: #555;
 }
 
-input[type="text"][inputmode="decimal"] {
-  text-align: left;
+/* ===== CORREÇÃO ESPECÍFICA PARA INPUT DE DATA ===== */
+.form-group input[type="date"] {
+  color: #FFFFFF;
+  background: #0A0A0A;
+  border: 1.5px solid #2A2A2A;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 16px;
+  width: 100%;
+  min-height: 48px;
+  -webkit-appearance: none;
+  appearance: none;
+  display: block; /* Garante que o campo ocupe toda a largura */
 }
 
-input::placeholder {
-  color: #555;
-  font-weight: 300;
+.form-group input[type="date"]:focus {
+  outline: none;
+  border-color: #FF8C00;
+  box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.1);
+}
+
+/* Personaliza o ícone do calendário no iOS e Chrome */
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* Personaliza a cor do texto da data no iOS */
+.form-group input[type="date"]::-webkit-datetime-edit {
+  color: #FFFFFF;
+}
+.form-group input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+  color: #FFFFFF;
+}
+.form-group input[type="date"]::-webkit-datetime-edit-text {
+  color: #888;
+}
+.form-group input[type="date"]::-webkit-datetime-edit-month-field {
+  color: #FFFFFF;
+}
+.form-group input[type="date"]::-webkit-datetime-edit-day-field {
+  color: #FFFFFF;
+}
+.form-group input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #FFFFFF;
+}
+
+/* Campo quando não tem data selecionada */
+.form-group input[type="date"]:invalid {
+  color: #888;
+}
+
+/* ===== INPUTS COM VÍRGULA ===== */
+input[type="text"][inputmode="decimal"] {
+  text-align: left;
 }
 
 .input-with-label {
@@ -334,11 +371,9 @@ input::placeholder {
   align-items: center;
   gap: 10px;
 }
-
 .input-with-label input {
   flex: 1;
 }
-
 .input-suffix {
   font-size: 14px;
   color: #888;
@@ -376,7 +411,6 @@ input::placeholder {
   color: #0A0A0A;
   box-shadow: 0 4px 12px rgba(255, 140, 0, 0.2);
 }
-
 .btn-primary:hover {
   background: linear-gradient(135deg, #E67E22, #D35400);
   transform: translateY(-2px);
@@ -387,7 +421,6 @@ input::placeholder {
   background: #2A2A2A;
   color: #AAAAAA;
 }
-
 .btn-secondary:hover {
   background: #3A3A3A;
 }
@@ -421,15 +454,11 @@ input::placeholder {
   transition: color 0.2s;
   position: relative;
 }
-
-.nav-item span:first-child {
-  font-size: 24px;
-}
+.nav-item span:first-child { font-size: 24px; }
 
 .nav-item.active {
   color: #FF8C00;
 }
-
 .nav-item.active::after {
   content: '';
   position: absolute;
@@ -446,7 +475,6 @@ input::placeholder {
 .historico-list {
   padding: 0 16px 20px;
 }
-
 .ride-item {
   background: #1A1A1A;
   padding: 14px 16px;
@@ -457,37 +485,10 @@ input::placeholder {
   justify-content: space-between;
   align-items: center;
 }
-
 .ride-item:hover {
   border-color: #FF8C00;
 }
 
-.ride-km {
-  font-weight: 600;
-  font-size: 16px;
-  color: #FFFFFF;
-}
-
-.ride-value {
-  font-weight: 600;
-  color: #FF8C00;
-  font-size: 15px;
-}
-
-.ride-profit {
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.ride-profit.negative {
-  color: #FF4444;
-}
-
-.ride-profit.positive {
-  color: #4CAF50;
-}
-
-/* ===== RESUMO DO DIA ===== */
 .day-summary {
   background: #1A1A1A;
   margin: 16px 16px 20px;
@@ -495,32 +496,23 @@ input::placeholder {
   border-radius: 16px;
   border: 1px solid #2A2A2A;
 }
-
 .day-date {
   font-size: 18px;
   font-weight: 700;
   color: #FF8C00;
 }
-
 .day-rides {
   color: #888;
   font-size: 14px;
   margin: 4px 0;
 }
-
 .day-profit {
   font-weight: 700;
   font-size: 18px;
   margin-top: 6px;
 }
-
-.day-profit.negative {
-  color: #FF4444;
-}
-
-.day-profit.positive {
-  color: #4CAF50;
-}
+.day-profit.negative { color: #FF4444; }
+.day-profit.positive { color: #4CAF50; }
 
 /* ===== BOTÕES EDITAR/EXCLUIR ===== */
 .btn-edit, .btn-delete {
@@ -532,12 +524,10 @@ input::placeholder {
   border-radius: 8px;
   transition: all 0.2s;
 }
-
 .btn-edit:hover {
   background: rgba(255, 140, 0, 0.1);
   transform: scale(1.1);
 }
-
 .btn-delete:hover {
   background: rgba(255, 68, 68, 0.1);
   transform: scale(1.1);
@@ -571,14 +561,8 @@ input::placeholder {
 }
 
 @keyframes modalFade {
-  from {
-    opacity: 0;
-    transform: translateY(-30px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .modal-header {
@@ -587,13 +571,11 @@ input::placeholder {
   align-items: center;
   margin-bottom: 20px;
 }
-
 .modal-header h2 {
   font-size: 20px;
   margin: 0;
   color: #FF8C00;
 }
-
 .modal-close {
   background: none;
   border: none;
@@ -602,59 +584,27 @@ input::placeholder {
   color: #888;
   padding: 0 8px;
 }
-
 .modal-close:hover {
   color: #FF8C00;
 }
 
 /* ===== SCROLLBAR ===== */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0A0A0A;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #FF8C00;
-  border-radius: 10px;
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #FF8C00; border-radius: 10px; }
 
 /* ===== RESPONSIVO ===== */
 @media (max-width: 480px) {
-  .modal-content {
-    padding: 18px;
-    margin: 10px;
-  }
-  
-  .ride-item {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  
+  .modal-content { padding: 18px; margin: 10px; }
+  .ride-item { flex-wrap: wrap; gap: 6px; }
   .ride-item > div:last-child {
     flex-direction: row !important;
     margin-top: 6px;
     width: 100%;
     justify-content: flex-end;
   }
-  
-  .card-value {
-    font-size: 18px;
-  }
-  
-  .date-selector {
-    padding: 10px 12px;
-    margin: 12px 12px 0;
-  }
-  
-  .date-display {
-    font-size: 13px;
-  }
-  
-  .brand-icon-img {
-    width: 100%;
-    max-width: 100%;
-  }
+  .card-value { font-size: 18px; }
+  .date-selector { padding: 10px 12px; margin: 12px 12px 0; }
+  .date-display { font-size: 13px; }
+  .brand-icon-img { width: 100%; max-width: 100%; }
 }
